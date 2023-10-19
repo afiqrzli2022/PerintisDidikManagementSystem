@@ -1,0 +1,15 @@
+use Illuminate\Support\Facades\Log;//debug
+
+dd();
+
+
+Session (if not have) 
+    tutor.home
+    student.home
+    admin.home
+
+Incomplete redirection 
+    studentController, redirect subscription
+
+
+
