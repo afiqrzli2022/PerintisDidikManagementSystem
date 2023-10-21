@@ -100,10 +100,10 @@ Route::get('/admin/manage-payment', function () {
 /*-------------------------------*/
 
 /*------- education-level page -------*/
-Route::get('/admin/education-level', [EducationlevelController::class, 'indexListEdulevel'])->name('listedulevel');
-Route::post('/admin/education-level', [EducationlevelController::class, 'create'])->name('create.edulevel');
-Route::put('/admin/education-level/{eduID}', [EducationlevelController::class, 'update'])->name('update.edulevel');
-Route::delete('/admin/education-level/{eduID}', [EducationlevelController::class, 'destroy'])->name('delete.edulevel');
+Route::get('/admin/education-level', [EducationLevelController::class, 'indexListEdulevel'])->name('listedulevel');
+Route::post('/admin/education-level', [EducationLevelController::class, 'create'])->name('create.edulevel');
+Route::put('/admin/education-level/{eduID}', [EducationLevelController::class, 'update'])->name('update.edulevel');
+Route::delete('/admin/education-level/{eduID}', [EducationLevelController::class, 'destroy'])->name('delete.edulevel');
 /*-------------------------------*/
 
 /*------- admin home page -------*/
