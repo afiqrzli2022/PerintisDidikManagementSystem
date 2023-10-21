@@ -12,7 +12,7 @@ Incomplete redirection
     studentController, redirect subscription
 
 Authencticate Middleware 
-    no error message 
+    no error message
 
 
 
