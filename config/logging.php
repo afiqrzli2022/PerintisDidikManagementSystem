@@ -59,9 +59,10 @@ return [
         ],
 
         'single' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
+            'driver' => 'errorlog',
+            //'path' => storage_path('logs/laravel.log'),
+            //'level' => env('LOG_LEVEL', 'debug'),
+            'level' => 'debug',
             'replace_placeholders' => true,
         ],
 
