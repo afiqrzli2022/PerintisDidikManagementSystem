@@ -127,14 +127,14 @@
                     <h4 class="modal-title">Edit Education Level</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="edit-edulevel-form" method="POST" action="">
+                    <form id="edit-edulevel-form" method="POST">
                         @csrf
                         @method('PUT')
 
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="package-name-1" for="username"><strong>Education Level Name</strong></label>
-                                <input class="form-control" type="text" id="eduName"></div>
+                                <input class="form-control" type="text" id="eduName" name="eduName"></div>
                             </div>
                         </div>
                         <div class="row">
