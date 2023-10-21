@@ -11,7 +11,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\AdministratorController;
-use App\Http\Controllers\EducationlevelController;
+use App\Http\Controllers\EducationLevelController;
 
 
 /*
