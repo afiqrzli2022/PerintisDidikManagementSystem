@@ -21,14 +21,10 @@ class EducationLevelController extends Controller
     public function create(Request $request)
     {
 
-        Log::debug("Test 1");
-
         $rules = [
             'eduID' => 'required|string|max:10|unique:educationlevel,eduID',
             'eduName' => 'required|string|max:45', 
         ];
-
-        Log::debug("Test 2");
 
         $errorMsg = [
             'eduID.required' => 'Education Level ID is required.',
@@ -38,40 +34,30 @@ class EducationLevelController extends Controller
             'eduName.required' => 'Education level name is required.',
         ];
 
-        Log::debug("Test 3");
-
         $validator = Validator::make($request->all(), $rules, $errorMsg);
     
-        Log::debug("Test 4");
-
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
         
-        Log::debug("Test 5");
-
         // Create a new edu with the validated data
         $edulevel = new EducationLevel([
             'eduID' => $request->input('eduID'),
             'eduName' => $request->input('eduName'),
         ]);
 
-        Log::debug("Test 6");
-
         // Save the edu to the database
         $edulevel->save();
 
-        Log::debug("Test 7");
-
         // Redirect to the 'listedu' route after successful creation
-        return redirect()->route('listedulevel')->with('success', 'edu created successfully!');
+        return redirect()->route('listedulevel')->with('success', 'Education Level created successfully!');
     }
 
     //update function
     public function update(Request $request, $eduID){
-        $request->validate([
+        $rules = [
             'eduName' => 'required|string|max:45', 
-        ]);
+        ];
 
         $errorMsg = [
             'eduName.max' => 'Education level name must not exceed 45 characters.',

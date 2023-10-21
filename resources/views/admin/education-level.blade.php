@@ -135,13 +135,23 @@
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="package-name-1" for="username"><strong>Education Level Name</strong></label>
                                 <input class="form-control" type="text" id="eduName"></div>
+                                @if($errors->has('eduID'))
+                                    <div class="alert alert-danger">
+                                        {{ $errors->first('userName') }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3 d-flex justify-content-end">
-                                    <button class="btn btn-light me-2" type="reset" data-bs-dismiss="modal">Clear</button>
+                                    <button class="btn btn-light me-2" type="reset">Clear</button>
                                     <button class="btn btn-primary" type="submit" onclick="document.getElementById('edit-edulevel-form').submit()">Update</button>
+                                @if($errors->has('eduName'))
+                                    <div class="alert alert-danger">
+                                        {{ $errors->first('userName') }}
+                                    </div>
+                                @endif
                                 </div>
                             </div>
                         </div>
