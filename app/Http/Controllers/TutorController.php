@@ -62,11 +62,8 @@ class TutorController extends Controller
             'workingExperience' => 'required|string',
         ]);
 
-        Log::debug("Test 2");
-        
         DB::beginTransaction();
         
-        Log::debug("Test 3");
         // Create a new user
         $user = User::create([
             'userID' => $request->userID,
@@ -80,8 +77,6 @@ class TutorController extends Controller
             'userType' => 'Tutor',
         ]);
 
-        Log::debug("Test 4");
-        
         // Create a new tutor record
         $tutor = Tutor::create([
             'userID' => $user->userID,
@@ -89,20 +84,11 @@ class TutorController extends Controller
             'workingExperience' => $request->workingExperience,
         ]);
         
-        Log::debug("Test 5");
-        
         DB::commit();
         
-        Log::debug("Test 6");
-        
-        session(['user'=>$user]);
-        session(['tutor'=>$tutor]);
-        
-        Log::debug("Test 7");
         // Redirect to a success page or any other page as needed
-        return redirect()->route('tutor.home')->with('success', 'Registration successful!');
+        return redirect()->route('tutor.signin')->with('success', 'Registration successful!');
         
-        Log::debug("Test 8");
     }
 
     public function updateProfile(Request $request){
@@ -155,7 +141,7 @@ class TutorController extends Controller
     
         session()->flash('success', 'Profile updated successfully.');
     
-        return redirect()->route('tutor.profile');
+        return redirect()->route('tutor.signin');
     }
 
 }

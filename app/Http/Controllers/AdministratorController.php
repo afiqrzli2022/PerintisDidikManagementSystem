@@ -85,10 +85,8 @@ class AdministratorController extends Controller
 
         DB::commit();
 
-        Auth::login($user);
-
         // Redirect to a success page or any other page as needed
-        return redirect()->route('admin.home')->with('success', 'Registration successful!');
+        return redirect()->route('admin.signin')->with('success', 'Registration successful!');
     }
 
     public function updateProfile(Request $request){
