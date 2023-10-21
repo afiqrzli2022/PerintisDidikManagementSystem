@@ -92,23 +92,23 @@
                     <h4 class="modal-title">Add Education Level</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/education-level') }}" method="POST">
+                    <form action="{{ url('/admin/education-level') }}" method="POST" name="addEduLevel">
                         @csrf
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="educationlevel-id"><strong>Education Level ID</strong></label>
-                                <input class="form-control" type="text" id="educationlevel-id"></div>
+                                <input class="form-control" type="text" id="educationlevel-id" name="eduID"></div>
                             </div>
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="educationlevel-name"><strong>Education Level Name</strong></label>
-                                <input class="form-control" type="text" id="educationlevel-name"></div>
+                                <input class="form-control" type="text" id="educationlevel-name" name="eduName"></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3 d-flex justify-content-end">
-                                    <button class="btn btn-light me-2" type="reset" data-bs-dismiss="modal">Clear</button>
-                                    <button class="btn btn-primary" type="submit">Add</button>
+                                    <button class="btn btn-light me-2" type="reset" data-bs-dismiss="modal" form="addEduLevel">Clear</button>
+                                    <button class="btn btn-primary" type="submit" form="addEduLevel">Add</button>
                                 </div>
                             </div>
                         </div>
