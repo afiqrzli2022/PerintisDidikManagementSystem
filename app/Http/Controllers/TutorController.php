@@ -49,7 +49,7 @@ class TutorController extends Controller
     public function register(Request $request)
     {
 
-        Log::debug("Test 1");
+        Log::error("Test 1");
         // Validate the incoming request data
         $validatedData = $request->validate([
             'userID' => 'required|string|max:12|unique:users,userID',
