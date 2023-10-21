@@ -23,10 +23,10 @@ class EducationLevelController extends Controller
 
         Log::debug("Test 1");
 
-        $request->validate([
+        $rules = [
             'eduID' => 'required|string|max:10|unique:educationlevel,eduID',
             'eduName' => 'required|string|max:45', 
-        ]);
+        ];
 
         Log::debug("Test 2");
 
