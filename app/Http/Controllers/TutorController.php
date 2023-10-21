@@ -141,7 +141,7 @@ class TutorController extends Controller
     
         session()->flash('success', 'Profile updated successfully.');
     
-        return redirect()->route('tutor.signin');
+        return redirect()->route('tutor.profile');
     }
 
 }

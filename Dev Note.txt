@@ -11,5 +11,8 @@ Session (if not have)
 Incomplete redirection 
     studentController, redirect subscription
 
+Authencticate Middleware 
+    no error message 
+
 
 
