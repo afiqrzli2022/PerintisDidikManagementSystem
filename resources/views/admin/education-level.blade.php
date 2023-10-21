@@ -92,7 +92,7 @@
                     <h4 class="modal-title">Add Education Level</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/education-level') }}" method="POST" name="addEduLevel">
+                    <form action="{{ url('/admin/education-level') }}" method="POST" id="addEduLevel">
                         @csrf
                         <div class="row">
                             <div class="col">
