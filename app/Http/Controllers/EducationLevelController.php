@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\EducationLevel;
 use Illuminate\Support\Facades\Validator;
 
-class EducationlevelController extends Controller
+class EducationLevelController extends Controller
 {
     // Listing
     public function indexListEdulevel()

@@ -8,7 +8,6 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\AdministratorController;
