@@ -19,10 +19,15 @@ class EducationLevelController extends Controller
     // Create function
     public function create(Request $request)
     {
+
+        Log::debug("Test 1");
+
         $request->validate([
             'eduID' => 'required|string|max:10|unique:educationlevel,eduID',
             'eduName' => 'required|string|max:45', 
         ]);
+
+        Log::debug("Test 2");
 
         $errorMsg = [
             'eduID.required' => 'Education Level ID is required.',
@@ -32,11 +37,17 @@ class EducationLevelController extends Controller
             'eduName.required' => 'Education level name is required.',
         ];
 
+        Log::debug("Test 3");
+
         $validator = Validator::make($request->all(), $rules, $errorMsg);
     
+        Log::debug("Test 4");
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
+        
+        Log::debug("Test 5");
 
         // Create a new edu with the validated data
         $edulevel = new EducationLevel([
@@ -44,8 +55,12 @@ class EducationLevelController extends Controller
             'eduName' => $request->input('eduName'),
         ]);
 
+        Log::debug("Test 6");
+
         // Save the edu to the database
         $edulevel->save();
+
+        Log::debug("Test 7");
 
         // Redirect to the 'listedu' route after successful creation
         return redirect()->route('listedulevel')->with('success', 'edu created successfully!');
