@@ -137,7 +137,7 @@
                                 <input class="form-control" type="text" id="eduName"></div>
                                 @if($errors->has('eduID'))
                                     <div class="alert alert-danger">
-                                        {{ $errors->first('userName') }}
+                                        {{ $errors->first('eduID') }}
                                     </div>
                                 @endif
                             </div>
@@ -149,7 +149,7 @@
                                     <button class="btn btn-primary" type="submit" onclick="document.getElementById('edit-edulevel-form').submit()">Update</button>
                                 @if($errors->has('eduName'))
                                     <div class="alert alert-danger">
-                                        {{ $errors->first('userName') }}
+                                        {{ $errors->first('eduName') }}
                                     </div>
                                 @endif
                                 </div>
