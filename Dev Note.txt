@@ -8,6 +8,11 @@ Session (if not have)
     student.home
     admin.home
 
+Error Message
+    tutor.sign-up
+    student.sign-up
+    admin.sign-up
+
 Incomplete redirection 
     studentController, redirect subscription
 
