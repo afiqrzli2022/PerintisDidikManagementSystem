@@ -48,6 +48,8 @@ class TutorController extends Controller
 
     public function register(Request $request)
     {
+
+        Log::debug("Test 1");
         // Validate the incoming request data
         $validatedData = $request->validate([
             'userID' => 'required|string|max:12|unique:users,userID',
@@ -55,13 +57,16 @@ class TutorController extends Controller
             'userNumber' => 'required|string|max:15',
             'userEmail' => 'required|email',
             'password' => 'required|string|min:6',
-
+            
             'educationLevel' => 'required|string|max:45',
             'workingExperience' => 'required|string',
         ]);
 
+        Log::debug("Test 2");
+        
         DB::beginTransaction();
-
+        
+        Log::debug("Test 3");
         // Create a new user
         $user = User::create([
             'userID' => $request->userID,
@@ -75,20 +80,29 @@ class TutorController extends Controller
             'userType' => 'Tutor',
         ]);
 
+        Log::debug("Test 4");
+        
         // Create a new tutor record
         $tutor = Tutor::create([
             'userID' => $user->userID,
             'educationLevel' => $request->educationLevel,
             'workingExperience' => $request->workingExperience,
         ]);
-
+        
+        Log::debug("Test 5");
+        
         DB::commit();
-
+        
+        Log::debug("Test 6");
+        
         session(['user'=>$user]);
         session(['tutor'=>$tutor]);
-
+        
+        Log::debug("Test 7");
         // Redirect to a success page or any other page as needed
         return redirect()->route('tutor.home')->with('success', 'Registration successful!');
+        
+        Log::debug("Test 8");
     }
 
     public function updateProfile(Request $request){
