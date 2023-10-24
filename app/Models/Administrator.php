@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Administrator extends Model
 {
@@ -22,7 +23,7 @@ class Administrator extends Model
     ];
 
     // Define the inverse one-to-one relationship between Administrator and User
-    public function user()
+    public function user():BelongsTo
     {
         return $this->belongsTo(User::class, 'userID', 'userID');
     }

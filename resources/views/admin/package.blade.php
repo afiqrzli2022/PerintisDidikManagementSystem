@@ -49,33 +49,26 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($packages as $package)
                                 <tr>
-                                    <td style="text-align: center;">1</td>
-                                    <td style="text-align: center;">P01</td>
-                                    <td style="text-align: center;">A</td>
-                                    <td style="text-align: center;">1</td>
-                                    <td style="text-align: center;">RM 45</td>
-                                    <td style="text-align: center;">UPSR</td>
-                                    <td style="text-align: center;"><button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-package" data-bs-toggle="modal"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button><button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;"><i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button></td>
+                                    <td style="text-align: center;">{{ $loop->iteration}}</td>
+                                    <td style="text-align: center;">{{ $package->packageID}}</td>
+                                    <td style="text-align: center;">{{ $package->packageName}}</td>
+                                    <td style="text-align: center;">{{ $package->subjectQuantity}}</td>
+                                    <td style="text-align: center;">{{ $package->packagePrice}}</td>
+                                    <td style="text-align: center;">{{ $package->educationLevel->eduID}}</td>
+                                    <td style="text-align: center;">
+                                        <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-package" data-bs-toggle="modal" 
+                                        onclick="handleEditButtonClickPackage('{{ $package->packageID }}' , '{{$package->packageName}}' , '{{$package->packagePrice}}' , '{{$package->subjectQuantity}}' , '{{$package->educationLevel->eduID}}')">
+                                            <i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span>
+                                        </button>
+                                        <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;"
+                                        onclick="confirmDeletePackage('{{ $package->packageID }}')">
+                                            <i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span>
+                                        </button>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td style="text-align: center;">2</td>
-                                    <td style="text-align: center;">P02</td>
-                                    <td style="text-align: center;">B</td>
-                                    <td style="text-align: center;">5</td>
-                                    <td style="text-align: center;">RM 50</td>
-                                    <td style="text-align: center;">SPM</td>
-                                    <td style="text-align: center;"><button class="btn btn-primary" type="button" style="margin-right: 10px;"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button><button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;"><i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button></td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">3</td>
-                                    <td style="text-align: center;">P03</td>
-                                    <td style="text-align: center;">C</td>
-                                    <td style="text-align: center;">7</td>
-                                    <td style="text-align: center;">RM 70</td>
-                                    <td style="text-align: center;">PT3</td>
-                                    <td style="text-align: center;"><button class="btn btn-primary" type="button" style="margin-right: 10px;"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button><button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;"><i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button></td>
-                                </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -84,7 +77,7 @@
                                     <td style="text-align: center;"><strong>Package Name</strong></td>
                                     <td style="text-align: center;"><strong>Subject Quantity</strong></td>
                                     <td style="text-align: center;"><strong>Price</strong></td>
-                                    <td style="text-align: center;"><strong>Education Level Name</strong></td>
+                                    <td style="text-align: center;"><strong>Education Level</strong></td>
                                     <td></td>
                                 </tr>
                             </tfoot>
@@ -116,35 +109,58 @@
                     <h4 class="modal-title">Add package</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{{ url('/admin/package') }}" method="POST" id="addPackage">
+                        @csrf
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" id="package-name" for="username"><strong>Package Name</strong></label><input class="form-control" type="text" id="package-name" value="" name="package-name"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name-1" for="packageID"><strong>Package ID</strong></label>
+                                    <input class="form-control" type="text" id="package-name" name="packageID">
+                                </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Quantity</strong></label><input class="form-control" type="number" id="quantity" name="quantity"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name" for="username"><strong>Package Name</strong></label>
+                                    <input class="form-control" type="text" id="package-name" name="packageName">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="email"><strong>Subject Quantity</strong></label>
+                                    <input class="form-control" type="number" id="package-name" name="subjectQuantity">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="first_name"><strong>Price (RM)</strong></label><input class="form-control" type="text" id="price" name="price"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="first_name"><strong>Price (RM)</strong></label>
+                                    <input class="form-control" type="text" id="package-name" name="packagePrice">
+                                </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label><select class="form-select">
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Education Level</strong></label>
+                                    <select class="form-select" id="package-name" name="eduID">
                                         <optgroup label="Choose your education level">
-                                            <option value="SPM" selected="">SPM</option>
-                                            <option value="PT3">PT3</option>
-                                            <option value="UPSR">UPSR</option>
+                                            @foreach($educationLevels as $eduID => $eduName)
+                                                <option value="{{$eduID}}">{{$eduName}}</option>
+                                            @endforeach
                                         </optgroup>
-                                    </select></div>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button><button class="btn btn-primary" type="button">Update</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset" form="addPackage">Clear</button>
+                    <button class="btn btn-primary" type="submit" form="addPackage">Add</button></div>
             </div>
         </div>
     </div>
+
+    <!-- Edit Form -->
     <div class="modal fade" role="dialog" tabindex="-1" id="edit-package">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -152,35 +168,66 @@
                     <h4 class="modal-title">Edit package</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="edit-package-form" method="POST">
+                        @csrf
+                        @method('PUT')
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" id="package-name-1" for="username"><strong>Package Name</strong></label><input class="form-control" type="text" id="package-name-2" value="A" name="package-name"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name-1" for="packageID"><strong>Package ID</strong></label>
+                                    <input class="form-control" type="text" id="packageID" name="packageID">
+                                </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Quantity</strong></label><input class="form-control" type="number" id="quantity-1" name="quantity" value="1"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name-1" for="username"><strong>Package Name</strong></label>
+                                    <input class="form-control" type="text" id="packageName" name="packageName">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="package-name-1"><strong>Quantity</strong></label>
+                                    <input class="form-control" type="number" id="subjectQuantity" name="subjectQuantity">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="first_name"><strong>Price (RM)</strong></label><input class="form-control" type="text" id="price-1" name="price" value="45"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="package-name-1"><strong>Price (RM)</strong></label>
+                                    <input class="form-control" type="text" id="packagePrice" name="packagePrice">
+                                </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label><select class="form-select">
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Education Level</strong></label>
+                                    <select class="form-select" id="eduID" name="eduID">
                                         <optgroup label="Choose your education level">
-                                            <option value="SPM" selected="">SPM</option>
-                                            <option value="PT3">PT3</option>
-                                            <option value="UPSR" selected="">UPSR</option>
+                                            @foreach($educationLevels as $eduID => $eduName)
+                                                <option value="{{$eduID}}">{{$eduName}}</option>
+                                            @endforeach
                                         </optgroup>
-                                    </select></div>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button><button class="btn btn-primary" type="button">Update</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button>
+                    <button class="btn btn-primary" type="submit" onclick="document.getElementById('edit-package-form').submit()">Update</button>
+                </div>
             </div>
         </div>
     </div>
+    <!---->
+
+    <!--Delete-->
+    <form id="delete-form-package" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+    <!---->
 
     @include('frame.footer')
 

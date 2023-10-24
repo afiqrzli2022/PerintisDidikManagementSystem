@@ -56,10 +56,14 @@ class EducationLevelController extends Controller
     //update function
     public function update(Request $request, $eduID){
         $rules = [
+            'eduID' => 'required|string|max:10|unique:educationlevel,eduID',
             'eduName' => 'required|string|max:45', 
         ];
 
         $errorMsg = [
+            'eduID.required' => 'Education Level ID is required.',
+            'eduID.max' => 'The Education Level ID must not exceed 10 characters.',
+            'eduID.unique' => 'Education Level ID is already taken.',
             'eduName.max' => 'Education level name must not exceed 45 characters.',
             'eduName.required' => 'Education level name is required.',
         ];
@@ -77,6 +81,7 @@ class EducationLevelController extends Controller
         }
 
         // Update the education level with the validated data
+        $educationLevel->eduID = $request->input('eduID');
         $educationLevel->eduName = $request->input('eduName');
         $educationLevel->save();
 
@@ -99,7 +104,5 @@ class EducationLevelController extends Controller
         // Redirect to the 'listedulevel' route after successful deletion
         return redirect()->route('listedulevel')->with('success', 'Education level deleted successfully!');
     }
-
-
 
 }

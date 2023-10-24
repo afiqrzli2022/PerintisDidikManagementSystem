@@ -1,6 +1,7 @@
 // Function to handle the edit button click
 function handleEditButtonClick(eduID, eduName) {
     // Set the data in the modal form
+    document.getElementById('eduID').value = eduID;
     document.getElementById('eduName').value = eduName;
     document.getElementById('edit-edulevel-form').action = "/admin/education-level/" + eduID;
 }
@@ -9,7 +10,7 @@ function handleEditButtonClick(eduID, eduName) {
 function confirmDelete(eduID) {
     if (confirm("Are you sure you want to delete this education level?")) {
         // If user confirms, submit the form for delete action
-        document.getElementById('delete-form').action = "/admin/education-level/" + eduID;
-        document.getElementById('delete-form').submit();
+        document.getElementById('delete-form-edulevel').action = "/admin/education-level/" + eduID;
+        document.getElementById('delete-form-edulevel').submit();
     }
 }

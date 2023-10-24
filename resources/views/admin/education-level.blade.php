@@ -40,6 +40,7 @@
                             <thead>
                                 <tr>
                                     <th style="text-align: center;">No</th>
+                                    <th style="text-align: center;">Education Level ID</th>
                                     <th style="text-align: center;">Education Level Name</th>
                                     <th></th>
                                 </tr>
@@ -48,8 +49,8 @@
                                 @foreach ($educationLevels as $edulevel)
                                 <tr>
                                     <td style="text-align: center;">{{ $loop->iteration}}</td>
+                                    <td style="text-align: center;">{{ $edulevel->eduID}}</td>
                                     <td style="text-align: center;">{{ $edulevel->eduName}}</td>
-
                                     <td style="text-align: center;">
                                         <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-education-level" data-bs-toggle="modal" onclick="handleEditButtonClick('{{ $edulevel->eduID }}', '{{ $edulevel->eduName }}')">
                                         <i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button>
@@ -99,6 +100,8 @@
                                 <div class="mb-3"><label class="form-label" id="educationlevel-id"><strong>Education Level ID</strong></label>
                                 <input class="form-control" type="text" id="educationlevel-id" name="eduID"></div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="educationlevel-name"><strong>Education Level Name</strong></label>
                                 <input class="form-control" type="text" id="educationlevel-name" name="eduName"></div>
@@ -107,7 +110,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3 d-flex justify-content-end">
-                                    <button class="btn btn-light me-2" type="reset" data-bs-dismiss="modal" form="addEduLevel">Clear</button>
+                                    <button class="btn btn-light me-2" type="reset" form="addEduLevel">Clear</button>
                                     <button class="btn btn-primary" type="submit" form="addEduLevel">Add</button>
                                 </div>
                             </div>
@@ -133,6 +136,12 @@
 
                         <div class="row">
                             <div class="col">
+                                <div class="mb-3"><label class="form-label" id="package-name-1" for="username"><strong>Education Level ID</strong></label>
+                                <input class="form-control" type="text" id="eduID" name="eduID"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <div class="mb-3"><label class="form-label" id="package-name-1" for="username"><strong>Education Level Name</strong></label>
                                 <input class="form-control" type="text" id="eduName" name="eduName"></div>
                             </div>
@@ -153,7 +162,7 @@
     <!-------------------------------->
 
     <!-- Delete Data -->
-    <form id="delete-form" method="POST" style="display: none;">
+    <form id="delete-form-edulevel" method="POST" style="display: none;">
         @csrf
         @method('DELETE')
     </form>

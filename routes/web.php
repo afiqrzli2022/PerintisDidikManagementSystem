@@ -93,221 +93,162 @@ Route::post('/tutor-register', 'App\Http\Controllers\TutorController@register')-
 
 /*--------------------------------------------------- admin ---------------------------------------------------*/
 
-/*------- Manage-payment page -------*/
-Route::get('/admin/manage-payment', function () {
-    return view('admin.manage-payment');
-})->name('admin.manage-payment');
-/*-------------------------------*/
+Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*--------Session for admin---------*/
 
-/*------- education-level page -------*/
-Route::get('/admin/education-level', [EducationLevelController::class, 'indexListEdulevel'])->name('listedulevel');
-Route::post('/admin/education-level', [EducationLevelController::class, 'create'])->name('create.edulevel');
-Route::put('/admin/education-level/{eduID}', [EducationLevelController::class, 'update'])->name('update.edulevel');
-Route::delete('/admin/education-level/{eduID}', [EducationLevelController::class, 'destroy'])->name('delete.edulevel');
-/*-------------------------------*/
+    /*------- admin home page -------*/
+        Route::get('/admin/home', function () {
+            return view('admin.home');
+        })->name('admin.home');
+    /*-------------------------------*/
 
-/*------- admin home page -------*/
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/home', function () {
-        return view('admin.home');
-    })->name('admin.home');
+    /*------- Manage-payment page -------*/
+    Route::get('/admin/manage-payment', function () {
+        return view('admin.manage-payment');
+    })->name('admin.manage-payment');
+    /*-------------------------------*/
+
+    /*------- education-level page -------*/
+    Route::get('/admin/education-level', [EducationLevelController::class, 'indexListEdulevel'])->name('listedulevel');
+    Route::post('/admin/education-level', [EducationLevelController::class, 'create'])->name('create.edulevel');
+    Route::put('/admin/education-level/{eduID}', [EducationLevelController::class, 'update'])->name('update.edulevel');
+    Route::delete('/admin/education-level/{eduID}', [EducationLevelController::class, 'destroy'])->name('delete.edulevel');
+    /*-------------------------------*/
+
+    /*------- package page -------*/
+    Route::get('/admin/package', [PackageController::class, 'indexListPackage'])->name('listpackage');
+    Route::post('/admin/package', [PackageController::class, 'create']);
+    Route::put('/admin/package/{packageID}', [PackageController::class, 'update'])->name('updatepackage');
+    Route::delete('/admin/package/{packageID}', [PackageController::class, 'destroy'])->name('deletepackage');
+    /*-------------------------------*/
+
+    /*------- admin profile page -------*/
+    Route::get('/admin/profile', function () {
+        return view('admin.profile');
+    })->name('admin.profile');
+    Route::post('/admin/profile', [AdministratorController::class, 'updateProfile'])->name('updatedProfileAdmin');
+    /*-------------------------------*/
+
+    /*------- admin profile-edit page -------*/
+    Route::get('/admin/profile-edit', function () {
+        return view('admin.profile-edit');
+    })->name('admin.profile-edit');
+    /*-------------------------------*/
+
+    /*------- service page -------*/
+    Route::get('/admin/service', function () {
+        return view('admin.service');
+    })->name('admin.service');
+    /*-------------------------------*/
+
+    /*------- subject page -------*/
+    Route::post('/admin/subject', [SubjectController::class, 'create'])->name('createsubject');
+    Route::put('/admin/subject/{subjectID}', [SubjectController::class, 'update'])->name('updatesubject');
+    Route::get('/admin/subject', [SubjectController::class, 'indexListSubject'])->name('listsubject');
+    Route::delete('/admin/subject/{subjectID}', [SubjectController::class, 'destroy'])->name('deletesubject');
+    /*-------------------------------*/
+
+    /*------- subscription page -------*/
+    Route::get('/admin/subscription', [SubscriptionController::class, 'adminView'])->name('admin.subscription');
+
+    /*-------------------------------*/
+
+    /*------- subscription-details page -------*/
+    Route::get('/admin/subscription-details', function () {
+        return view('admin.subscription-details');
+    })->name('admin.subscription-details');
+    /*-------------------------------*/
+
 });
-/*-------------------------------*/
-
-/*------- package page -------*/
-Route::get('/admin/package', [PackageController::class, 'indexListPackage'])->name('listpackage');
-Route::post('/admin/package', [PackageController::class, 'create']);
-Route::put('/admin/package/{packageID}/update', [PackageController::class, 'update'])->name('updatepackage');
-Route::delete('/admin/package/{packageID}', [PackageController::class, 'destroy'])->name('deletepackage');
-/*-------------------------------*/
-
-/*------- admin profile page -------*/
-Route::get('/admin/profile', function () {
-    return view('admin.profile');
-})->name('admin.profile');
-Route::post('/admin/profile', [AdministratorController::class, 'updateProfile'])->name('updatedProfileAdmin');
-/*-------------------------------*/
-
-/*------- admin profile-edit page -------*/
-Route::get('/admin/profile-edit', function () {
-    return view('admin.profile-edit');
-})->name('admin.profile-edit');
-/*-------------------------------*/
-
-/*------- service page -------*/
-Route::get('/admin/service', function () {
-    return view('admin.service');
-})->name('admin.service');
-/*-------------------------------*/
-
-/*------- subject page -------*/
-Route::post('/admin/subject', [SubjectController::class, 'create'])->name('createsubject');
-Route::put('/admin/subject/{subjectID}', [SubjectController::class, 'update'])->name('updatesubject');
-Route::get('/admin/subject', [SubjectController::class, 'indexListSubject'])->name('listsubject');
-Route::delete('/admin/subject/{subjectID}', [SubjectController::class, 'destroy'])->name('deletesubject');
-/*-------------------------------*/
-
-/*------- subscription page -------*/
-Route::get('/admin/subscription', [SubscriptionController::class, 'adminView'])->name('admin.subscription');
-
-/*-------------------------------*/
-
-/*------- subscription-details page -------*/
-Route::get('/admin/subscription-details', function () {
-    return view('admin.subscription-details');
-})->name('admin.subscription-details');
-/*-------------------------------*/
 
 /*-------------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------- student ---------------------------------------------------*/
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'checkUserRole:Student')->group(function () { /*--------Session for student---------*/
+
     Route::get('/student/home', function () {
         return view('student.home');
     })->name('student.home');
+
+    /*------- student profile page -------*/
+    Route::get('/student/profile', function () {
+        return view('student.profile');
+    })->name('student.profile');
+    Route::post('/student/profile', [StudentController::class, 'updateProfile'])->name('updatedProfileStudent');
+
+    /*-------------------------------*/
+
+    /*------- student profile-edit page -------*/
+    Route::get('/student/profile-edit', function () {
+        return view('student.profile-edit');
+    })->name('student.profile-edit');
+    /*-------------------------------*/
+
+    /*------- student schedule page -------*/
+    Route::get('/student/schedule', function () {
+        return view('student.schedule');
+    })->name('student.schedule');
+    /*-------------------------------*/
+
+    /*------- student subscription page -------*/
+    Route::get('/student/subscription', [SubscriptionController::class, 'viewSubs'])->name('student.subscription');
+    Route::post('/student/subscription', [SubscriptionController::class, 'addSubscription']);
+
+    /*-------------------------------*/
+
+    /*------- student payment page -------*/
+    Route::get('/student/payment', [PaymentController::class, 'UserPayment'])->name('student.payment');
+    Route::get('/student/payment?success', [PaymentController::class, 'UserPayment'])->name('student.payment2');
+    /*-------------------------------*/
+
+    /*------- student payment-details page -------*/
+    Route::get('/student/payment-details', function () {
+        return view('student.payment-details');
+    })->name('student.payment-details');
+    Route::post('/student/payment-details', [PaymentController::class, 'charge']);
+
+    /*-------------------------------*/
+
 });
-
-/*------- student profile page -------*/
-Route::get('/student/profile', function () {
-    return view('student.profile');
-})->name('student.profile');
-Route::post('/student/profile', [StudentController::class, 'updateProfile'])->name('updatedProfileStudent');
-
-/*-------------------------------*/
-
-/*------- student profile-edit page -------*/
-Route::get('/student/profile-edit', function () {
-    return view('student.profile-edit');
-})->name('student.profile-edit');
-/*-------------------------------*/
-
-/*------- student schedule page -------*/
-Route::get('/student/schedule', function () {
-    return view('student.schedule');
-})->name('student.schedule');
-/*-------------------------------*/
-
-/*------- student subscription page -------*/
-Route::get('/student/subscription', [SubscriptionController::class, 'viewSubs'])->name('student.subscription');
-Route::post('/student/subscription', [SubscriptionController::class, 'addSubscription']);
-
-/*-------------------------------*/
-
-/*------- student payment page -------*/
-Route::get('/student/payment', [PaymentController::class, 'UserPayment'])->name('student.payment');
-Route::get('/student/payment?success', [PaymentController::class, 'UserPayment'])->name('student.payment2');
-/*-------------------------------*/
-
-/*------- student payment-details page -------*/
-Route::get('/student/payment-details', function () {
-    return view('student.payment-details');
-})->name('student.payment-details');
-Route::post('/student/payment-details', [PaymentController::class, 'charge']);
-
-/*-------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------- tutor ---------------------------------------------------*/
 
-/*------- tutor home page -------*/
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'checkUserRole:Tutor')->group(function () {
+    
+    /*------- tutor home page -------*/
     Route::get('/tutor/home', function () {
         return view('tutor.home');
     })->name('tutor.home');
+    /*-------------------------------*/
+
+    /*------- tutor profile page -------*/
+    Route::get('/tutor/profile', function () {
+        return view('tutor.profile');
+    })->name('tutor.profile');
+    Route::post('/tutor/profile', [TutorController::class, 'updateProfile'])->name('updatedProfileTutor');
+    /*-------------------------------*/
+
+    /*------- tutor profile-edit page -------*/
+    Route::get('/tutor/profile-edit', function () {
+        return view('tutor.profile-edit');
+    })->name('tutor.profile-edit');
+    /*-------------------------------*/
+
+    /*------- tutor schedule page -------*/
+    Route::get('/tutor/schedule', function () {
+        return view('tutor.schedule');
+    })->name('tutor.schedule');
+    /*-------------------------------*/
+
+    /*------- tutor subscription page -------*/
+    Route::get('/tutor/subscription', function () {
+        return view('tutor.subscription');
+    })->name('tutor.subscription');
+    /*-------------------------------*/
+
 });
-/*-------------------------------*/
-
-/*------- tutor profile page -------*/
-Route::get('/tutor/profile', function () {
-    return view('tutor.profile');
-})->name('tutor.profile');
-Route::post('/tutor/profile', [TutorController::class, 'updateProfile'])->name('updatedProfileTutor');
-
-/*-------------------------------*/
-
-/*------- tutor profile-edit page -------*/
-Route::get('/tutor/profile-edit', function () {
-    return view('tutor.profile-edit');
-})->name('tutor.profile-edit');
-/*-------------------------------*/
-
-/*------- tutor schedule page -------*/
-Route::get('/tutor/schedule', function () {
-    return view('tutor.schedule');
-})->name('tutor.schedule');
-/*-------------------------------*/
-
-/*------- tutor subscription page -------*/
-Route::get('/tutor/subscription', function () {
-    return view('tutor.subscription');
-})->name('tutor.subscription');
-/*-------------------------------*/
-
-/*-------------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------- frame ---------------------------------------------------*/
-
-/*------- admin-head page -------*/
-Route::get('/frame/admin-head', function () {
-    return view('frame.admin-head');
-})->name('frame.admin-head');
-/*-------------------------------*/
-
-/*------- admin-navbar page -------*/
-Route::get('/frame/admin-navbar', function () {
-    return view('frame.admin-navbar');
-})->name('frame.admin-navbar');
-/*-------------------------------*/
-
-/*------- footer page -------*/
-Route::get('/frame/footer', function () {
-    return view('frame.footer');
-})->name('frame.footer');
-/*-------------------------------*/
-
-/*------- index-head page -------*/
-Route::get('/frame/index-head', function () {
-    return view('frame.index-head');
-})->name('frame.index-head');
-/*-------------------------------*/
-
-/*------- index-navbar page -------*/
-Route::get('/frame/index-navbar', function () {
-    return view('frame.index-navbar');
-})->name('frame.index-navbar');
-/*-------------------------------*/
-
-/*------- script page -------*/
-Route::get('/frame/script', function () {
-    return view('frame.script');
-})->name('frame.script');
-/*-------------------------------*/
-
-/*------- student-head page -------*/
-Route::get('/frame/student-head', function () {
-    return view('frame.student-head');
-})->name('frame.student-head');
-/*-------------------------------*/
-
-/*------- student-navbar page -------*/
-Route::get('/frame/student-navbar', function () {
-    return view('frame.student-navbar');
-})->name('frame.student-navbar');
-/*-------------------------------*/
-
-/*------- tutor-head page -------*/
-Route::get('/frame/tutor-head', function () {
-    return view('frame.tutor-head');
-})->name('frame.tutor-head');
-/*-------------------------------*/
-
-/*------- tutor-navbar page -------*/
-Route::get('/frame/tutor-navbar', function () {
-    return view('frame.tutor-navbar');
-})->name('frame.tutor-navbar');
-/*-------------------------------*/
 
 /*-------------------------------------------------------------------------------------------------------------*/
 

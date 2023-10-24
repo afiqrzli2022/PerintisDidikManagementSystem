@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;  
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Model implements Authenticatable
 {
@@ -32,17 +33,17 @@ class User extends Model implements Authenticatable
     ];
 
     // Define the one-to-one relationship between User and Student
-    public function student()
+    public function student():HasOne
     {
         return $this->hasOne(Student::class, 'userID', 'userID');
     }
     
-    public function tutor()
+    public function tutor():HasOne
     {
         return $this->hasOne(Tutor::class, 'userID', 'userID');
     }
     
-    public function administrator()
+    public function administrator():HasOne
     {
         return $this->hasOne(Administrator::class, 'userID', 'userID');
     }

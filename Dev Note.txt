@@ -2,16 +2,21 @@ use Illuminate\Support\Facades\Log;//debug
 
 dd();
 
+Current Working Project
+- Show (form education level must follow db and edit form) (done)
+- Edit Package 
+- 
 
-Session (if not have) 
-    tutor.home
-    student.home
-    admin.home
+Search function
+    edulevel admin  
+    package admin
 
 Error Message
     tutor.sign-up
     student.sign-up
     admin.sign-up
+    admin.services.edulevel
+    admin.services.package
 
 Incomplete redirection 
     studentController, redirect subscription
@@ -22,5 +27,28 @@ Authencticate Middleware
 Manage Services 
     no error for add edulevel
 
+Popup Problem 
+    Tekan back popup reshow
+        edulevel admin  
+        package admin
 
 
+SYAHRUL
+
+Form Design
+    admin/package -> form add & edit nak besarkan input form education level
+
+    admin/edulevel -> need one more attribute to show , eduID
+
+
+
+
+
+
+
+
+
+
+COMPLETE (Beware still)
+
+session

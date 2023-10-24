@@ -46,28 +46,32 @@
                                     <th style="text-align: center;">Day</th>
                                     <th style="text-align: center;">Duration</th>
                                     <th style="text-align: center;">Education Level</th>
+                                    <th style="text-align: center;">Tutor</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align: center;">1</td>
-                                    <td style="text-align: center;">MT1</td>
-                                    <td style="text-align: center;">Mathematics</td>
-                                    <td style="text-align: center;">08:00 am - 10:00 am</td>
-                                    <td style="text-align: center;">Monday</td>
-                                    <td style="text-align: center;">2 hours</td>
-                                    <td style="text-align: center;">UPSR</td>
-                                    <td style="text-align: center;">
-                                        <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-subject" data-bs-toggle="modal">
-                                        <i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;">
-                                        <i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button>
-                                    </td>
-                                </tr>
-                            </tfoot>
+                                @foreach($subjects as $subject)
+                                    <tr>
+                                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                        <td style="text-align: center;">{{ $subject->subjectID }}</td>
+                                        <td style="text-align: center;">{{ $subject->subjectName }}</td>
+                                        <td style="text-align: center;">{{ $subject->time }}</td>
+                                        <td style="text-align: center;">{{ $subject->day }}</td>
+                                        <td style="text-align: center;">{{ $subject->duration }}</td>
+                                        <td style="text-align: center;">{{ $subject->educationLevel->eduID }}</td>
+                                        <td style="text-align: center;">{{ $subject->tutor->user->userName }}</td>
+                                        <td style="text-align: center;">
+                                            <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-subject" data-bs-toggle="modal">
+                                            <i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;">
+                                            <i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                     <div class="row">
@@ -99,33 +103,72 @@
                     <form>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" id="package-name" for="username"><strong>Subject Name</strong></label><input class="form-control" type="text" id="subject-name-1" value="" name="subject-name"></div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Time</strong></label><input class="form-control" type="text" id="subject-time" value="" name="subject-time"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name" for="username"><strong>Subject Name</strong></label>
+                                    <input class="form-control" type="text" id="subject-name-1" name="subjectName">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Day</strong></label><select class="form-select" id="day">
-                                        <option value="Monday" selected="">Monday</option>
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name" for="username"><strong>Subject ID</strong></label>
+                                    <input class="form-control" type="text" id="subject-name-1" name="subjectID">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="email"><strong>Time</strong></label>
+                                    <input class="form-control" type="time" id="subject-time" name="time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Day</strong></label>
+                                    <select class="form-select" id="day" name="day">
+                                        <option value="Monday" >Monday</option>
                                         <option value="Tuesday">Tuesday</option>
                                         <option value="Wednesday">Wednesday</option>
-                                    </select></div>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Duration</strong></label><input class="form-control" type="number" id="duration" name="duration"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Duration</strong></label>
+                                    <input class="form-control" type="text" id="duration" name="duration" placeholder="HH:MM:SS">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label><select class="form-select" id="education-level">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label>
+                                    <select class="form-select" id="education-level" name="eduID">
                                         <optgroup label="Choose your education level">
-                                            <option value="SPM" selected="">SPM</option>
-                                            <option value="PT3">PT3</option>
-                                            <option value="UPSR">UPSR</option>
+                                            @foreach($educationLevels as $eduID => $eduName)
+                                                <option value="{{$eduID}}">{{$eduName}}</option>
+                                            @endforeach
                                         </optgroup>
-                                    </select></div>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Tutor</strong></label>
+                                    <select class="form-select" id="education-level" name="tutorID">
+                                        <optgroup label="Choose tutor to teach this subject">
+                                            @foreach($tutors as $tutor)
+                                                <option value="{{$tutor->userID}}">{{$tutor->user->userName}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -147,7 +190,10 @@
                                 <div class="mb-3"><label class="form-label" id="subject-name"><strong>Subject Name</strong></label><input class="form-control" type="text" id="subject-name" value="Mathematics" name="subject-name"></div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Time</strong></label><input class="form-control" type="text" id="subject-time-1" value="08:00 am - 10:00 am" name="subject-time"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="email"><strong>Time</strong></label>
+                                    <input class="form-control" type="time" id="subject-time-1" name="time">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -159,18 +205,36 @@
                                     </select></div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Duration</strong></label><input class="form-control" type="number" id="duration-1" name="duration" value="3"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Duration</strong></label>
+                                    <input class="form-control" type="text" id="duration-1" name="duration" placeholder="HH:MM:SS">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label><select class="form-select" id="education-level-1">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label>
+                                    <select class="form-select" id="education-level" name="eduID">
                                         <optgroup label="Choose your education level">
-                                            <option value="SPM">SPM</option>
-                                            <option value="PT3">PT3</option>
-                                            <option value="UPSR" selected="">UPSR</option>
+                                            @foreach($educationLevels as $eduID => $eduName)
+                                                <option value="{{$eduID}}">{{$eduName}}</option>
+                                            @endforeach
                                         </optgroup>
-                                    </select></div>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Tutor</strong></label>
+                                    <select class="form-select" id="education-level" name="tutorID">
+                                        <optgroup label="Choose tutor to teach this subject">
+                                            @foreach($tutors as $tutor)
+                                                <option value="{{$tutor->userID}}">{{$tutor->user->userName}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </form>
