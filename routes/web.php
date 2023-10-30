@@ -255,3 +255,65 @@ Route::middleware('auth', 'checkUserRole:Tutor')->group(function () {
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 
+/*--------------------------------------------------- frame ---------------------------------------------------*/
+
+/*------- admin-head page -------*/
+Route::get('/frame/admin-head', function () {
+    return view('frame.admin-head');
+})->name('frame.admin-head');
+/*-------------------------------*/
+
+/*------- admin-navbar page -------*/
+Route::get('/frame/admin-navbar', function () {
+    return view('frame.admin-navbar');
+})->name('frame.admin-navbar');
+/*-------------------------------*/
+
+/*------- footer page -------*/
+Route::get('/frame/footer', function () {
+    return view('frame.footer');
+})->name('frame.footer');
+/*-------------------------------*/
+
+/*------- index-head page -------*/
+Route::get('/frame/index-head', function () {
+    return view('frame.index-head');
+})->name('frame.index-head');
+/*-------------------------------*/
+
+/*------- index-navbar page -------*/
+Route::get('/frame/index-navbar', function () {
+    return view('frame.index-navbar');
+})->name('frame.index-navbar');
+/*-------------------------------*/
+
+/*------- script page -------*/
+Route::get('/frame/script', function () {
+    return view('frame.script');
+})->name('frame.script');
+/*-------------------------------*/
+
+/*------- student-head page -------*/
+Route::get('/frame/student-head', function () {
+    return view('frame.student-head');
+})->name('frame.student-head');
+/*-------------------------------*/
+
+/*------- student-navbar page -------*/
+Route::get('/frame/student-navbar', function () {
+    return view('frame.student-navbar');
+})->name('frame.student-navbar');
+/*-------------------------------*/
+
+/*------- tutor-head page -------*/
+Route::get('/frame/tutor-head', function () {
+    return view('frame.tutor-head');
+})->name('frame.tutor-head');
+/*-------------------------------*/
+
+/*------- tutor-navbar page -------*/
+Route::get('/frame/tutor-navbar', function () {
+    return view('frame.tutor-navbar');
+})->name('frame.tutor-navbar');
+/*-------------------------------*/
+
