@@ -29,15 +29,17 @@ class SubjectController extends Controller
             'day' => 'required|string|max:10',
             'duration' => 'required|string|max:20',
             'eduID' => 'required|exists:educationlevel,eduID',
+            'tutorID' => 'required|exists:tutor,userID',
         ]);
 
-        Subject::create([
+        $subject = Subject::create([
             'subjectID' => $request->input('subjectID'),
             'subjectName' => $request->input('subjectName'),
             'time' => $request->input('time'),
             'day' => $request->input('day'),
             'duration' => $request->input('duration'),
             'eduID' => $request->input('eduID'),
+            'tutorID' => $request->input('tutorID'),
         ]);
 
         return redirect()->route('listsubject')->with('success', 'Subject created successfully!');
@@ -59,6 +61,7 @@ class SubjectController extends Controller
             'day' => 'required|string|max:10',
             'duration' => 'required|string|max:20',
             'eduID' => 'required|exists:educationlevel,eduID',
+            'tutorID' => 'required|exists:tutor,userID',
         ]);
 
         if ($validator->fails()) {

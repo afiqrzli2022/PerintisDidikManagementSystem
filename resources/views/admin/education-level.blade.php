@@ -52,11 +52,11 @@
                                     <td style="text-align: center;">{{ $edulevel->eduID}}</td>
                                     <td style="text-align: center;">{{ $edulevel->eduName}}</td>
                                     <td style="text-align: center;">
-                                        <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-education-level" data-bs-toggle="modal" onclick="handleEditButtonClick('{{ $edulevel->eduID }}', '{{ $edulevel->eduName }}')">
+                                        <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-education-level" data-bs-toggle="modal" onclick="handleEditButtonClickEduLevel('{{ $edulevel->eduID }}', '{{ $edulevel->eduName }}')">
                                         <i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button>
                                     </td>
                                     <td style="text-align: center;">
-                                        <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;" onclick="confirmDelete('{{ $edulevel->eduID }}')">
+                                        <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;" onclick="confirmDeleteEduLevel('{{ $edulevel->eduID }}')">
                                         <i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button>
                                     </td>
 

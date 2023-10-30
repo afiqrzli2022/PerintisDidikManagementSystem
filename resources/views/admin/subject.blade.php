@@ -62,11 +62,12 @@
                                         <td style="text-align: center;">{{ $subject->educationLevel->eduID }}</td>
                                         <td style="text-align: center;">{{ $subject->tutor->user->userName }}</td>
                                         <td style="text-align: center;">
-                                            <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-subject" data-bs-toggle="modal">
+                                            <button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#edit-subject" data-bs-toggle="modal" 
+                                            onclick="handleEditButtonClickSubject('{{ $subject->subjectID}}','{{ $subject->subjectName}}','{{ $subject->time}}','{{ $subject->day}}','{{ $subject->duration}}','{{ $subject->eduID}}','{{ $subject->tutorID}}')">
                                             <i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button>
                                         </td>
                                         <td style="text-align: center;">
-                                            <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;">
+                                            <button class="btn btn-primary" type="button" style="background: var(--bs-red);border-style: none;" onclick="confirmDeleteSubject('{{ $subject->subjectID}}')">
                                             <i class="fas fa-trash-alt" style="color: rgb(255,255,255);"></i>&nbsp;Delete<span class="text-white-50 icon"></span></button>
                                         </td>
                                     </tr>
@@ -100,7 +101,8 @@
                     <h4 class="modal-title">Add Subject</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{{ url('/admin/subject') }}" method="POST" id="addSubject">
+                        @csrf
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
@@ -120,6 +122,94 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="email"><strong>Time</strong></label>
                                     <input class="form-control" type="time" id="subject-time" name="time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Day</strong></label>
+                                    <select class="form-select" id="education-level" name="day">
+                                        <option value="Monday" >Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="last_name"><strong>Duration</strong></label>
+                                    <input class="form-control" type="text" id="education-level" name="duration" placeholder="HH:MM:SS">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label>
+                                    <select class="form-select" id="education-level" name="eduID">
+                                        <optgroup label="Choose your education level">
+                                            @foreach($educationLevels as $eduID => $eduName)
+                                                <option value="{{$eduID}}">{{$eduName}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Tutor</strong></label>
+                                    <select class="form-select" id="education-level" name="tutorID">
+                                        <optgroup label="Choose tutor to teach this subject">
+                                            @foreach($tutors as $tutor)
+                                                <option value="{{$tutor->userID}}">{{$tutor->user->userName}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset" form="addSubject">Clear</button>
+                    <button class="btn btn-primary" type="submit" form="addSubject">Add</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="edit-subject">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Subject</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="edit-subject-form">
+                        @csrf
+                        @method('PUT')
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" id="subject-name"><strong>Subject Name</strong></label>
+                                    <input class="form-control" type="text" id="subjectName" name="subjectName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" id="package-name" for="username"><strong>Subject ID</strong></label>
+                                    <input class="form-control" type="text" id="subjectID" name="subjectID">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="email"><strong>Time</strong></label>
+                                    <input class="form-control" type="time" id="time" name="time">
                                 </div>
                             </div>
                         </div>
@@ -148,7 +238,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label>
-                                    <select class="form-select" id="education-level" name="eduID">
+                                    <select class="form-select" id="eduID" name="eduID">
                                         <optgroup label="Choose your education level">
                                             @foreach($educationLevels as $eduID => $eduName)
                                                 <option value="{{$eduID}}">{{$eduName}}</option>
@@ -161,7 +251,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" for="last_name"><strong>Tutor</strong></label>
-                                    <select class="form-select" id="education-level" name="tutorID">
+                                    <select class="form-select" id="tutorID" name="tutorID">
                                         <optgroup label="Choose tutor to teach this subject">
                                             @foreach($tutors as $tutor)
                                                 <option value="{{$tutor->userID}}">{{$tutor->user->userName}}</option>
@@ -173,76 +263,18 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button><button class="btn btn-primary" type="button">Update</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button>
+                    <button class="btn btn-primary" type="submit" form="edit-subject-form">Update</button></div>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="edit-subject">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Subject</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"><label class="form-label" id="subject-name"><strong>Subject Name</strong></label><input class="form-control" type="text" id="subject-name" value="Mathematics" name="subject-name"></div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="email"><strong>Time</strong></label>
-                                    <input class="form-control" type="time" id="subject-time-1" name="time">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Day</strong></label><select class="form-select" id="day-1">
-                                        <option value="Monday" selected="">Monday</option>
-                                        <option value="Tuesday">Tuesday</option>
-                                        <option value="Wednesday">Wednesday</option>
-                                    </select></div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="last_name"><strong>Duration</strong></label>
-                                    <input class="form-control" type="text" id="duration-1" name="duration" placeholder="HH:MM:SS">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Education Level</strong></label>
-                                    <select class="form-select" id="education-level" name="eduID">
-                                        <optgroup label="Choose your education level">
-                                            @foreach($educationLevels as $eduID => $eduName)
-                                                <option value="{{$eduID}}">{{$eduName}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Tutor</strong></label>
-                                    <select class="form-select" id="education-level" name="tutorID">
-                                        <optgroup label="Choose tutor to teach this subject">
-                                            @foreach($tutors as $tutor)
-                                                <option value="{{$tutor->userID}}">{{$tutor->user->userName}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button><button class="btn btn-primary" type="button">Update</button></div>
-            </div>
-        </div>
-    </div>
+    <!-- Delete Data -->
+    <form id="delete-form-subject" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+    <!----------------->
 
     @include('frame.footer')
 

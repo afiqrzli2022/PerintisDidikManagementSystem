@@ -55,8 +55,15 @@ class EducationLevelController extends Controller
 
     //update function
     public function update(Request $request, $eduID){
+        
+        $educationLevel = EducationLevel::find($eduID);
+        
+        if (!$educationLevel) {
+            return redirect()->route('listedulevel')->with('error', 'Education level not found!');
+        }
+
         $rules = [
-            'eduID' => 'required|string|max:10|unique:educationlevel,eduID',
+            'eduID' => 'required|string|max:10|unique:educationlevel,eduID,'.$eduID.',eduID',
             'eduName' => 'required|string|max:45', 
         ];
 
@@ -69,15 +76,9 @@ class EducationLevelController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules, $errorMsg);
-    
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
-        }
-
-        $educationLevel = EducationLevel::find($eduID);
-
-        if (!$educationLevel) {
-            return redirect()->route('listedulevel')->with('error', 'Education level not found!');
         }
 
         // Update the education level with the validated data

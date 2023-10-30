@@ -18,7 +18,7 @@ class Subject extends Model
         'time',
         'day',
         'duration',
-        'userID',
+        'tutorID',
         'eduID',
     ];
 
