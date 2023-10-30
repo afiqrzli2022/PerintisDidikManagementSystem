@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use App\Models\EducationLevel;
 use App\Models\Tutor;
+use Illuminate\Database\QueryException;
 
 class SubjectController extends Controller
 {
@@ -74,7 +76,7 @@ class SubjectController extends Controller
     }
 
 
-    public function destroy($subjectID)
+    public function destroys($subjectID)
     {
         $subj = Subject::find($subjectID);
 
@@ -85,5 +87,28 @@ class SubjectController extends Controller
         $subj->delete();
 
         return redirect()->route('listsubject')->with('success', 'Subject deleted successfully!');
+    }
+
+    public function destroy($subjectID)
+    {
+        $subj = Subject::find($subjectID);
+    
+        if (!$subj) {
+            return redirect()->back()->with('error', 'Subject not found.');
+        }
+       
+        Log::debug("message");
+
+        try {
+
+            $subj->delete();
+
+            return redirect()->route('listsubject')->with('success', 'Subject deleted successfully!');
+        
+        } catch (QueryException $e) {
+
+            return redirect()->back()->withErrors('error', 'Deletion Failed: The subject is referenced by other records.');
+
+        }
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\EducationLevel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class EducationLevelController extends Controller
 {
@@ -91,7 +92,7 @@ class EducationLevelController extends Controller
     }
 
     // Delete function
-    public function destroy($eduID) {
+    public function destroys($eduID) {
         // Find the education level by its ID
         $educationLevel = EducationLevel::find($eduID);
 
@@ -104,6 +105,27 @@ class EducationLevelController extends Controller
 
         // Redirect to the 'listedulevel' route after successful deletion
         return redirect()->route('listedulevel')->with('success', 'Education level deleted successfully!');
+    }
+
+    public function destroy($eduID)
+    {
+        $educationLevel = EducationLevel::find($eduID);
+    
+        if (!$educationLevel) {
+            return redirect()->back()->with('error', 'Education level not found.');
+        }
+       
+        try {
+
+            $educationLevel->delete();
+
+            return redirect()->route('listedulevel')->with('success', 'Education level deleted successfully!');
+        
+        } catch (QueryException $e) {
+
+            return redirect()->back()->with('error', 'Deletion Failed: The education level has the subject in it.');
+            
+        }
     }
 
 }
