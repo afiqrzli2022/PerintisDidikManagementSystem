@@ -120,6 +120,8 @@ class AdministratorController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        DB::beginTransaction();
+
         $user = User::find(Auth::user()->userID);
         $admin = Administrator::find(Auth::user()->userID);
 
@@ -137,6 +139,8 @@ class AdministratorController extends Controller
         $admin->save();
 
         session()->flash('success', 'Profile updated successfully.');
+
+        DB::commit();
 
         return redirect()->route('admin.profile');
 

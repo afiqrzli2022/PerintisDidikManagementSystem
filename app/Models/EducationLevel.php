@@ -20,11 +20,11 @@ class EducationLevel extends Model
 
     public function Subject()
     {
-        return $this->hasMany(Schedule::class, 'subjectID'); 
+        return $this->hasMany(Subject::class, 'eduID'); 
     }
 
     public function Package()
     {
-        return $this->hasMany(Package::class, 'packageID');
+        return $this->hasMany(Package::class, 'eduID')->orderBy('packagePrice', 'asc');;
     }
 }

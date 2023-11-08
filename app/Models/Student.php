@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class Student extends Model
@@ -33,14 +34,12 @@ class Student extends Model
 
     public function subscribe(): HasMany
     {
-        return $this->hasMany(Subscription::class, 'userID', 'studentID');
+        return $this->hasMany(Subscription::class, 'studentID', 'userID');
     }
 
-    public function latestSub(){
-        $subscriptions = $this->subscribe;
-        $subscriptionCollection = collect($subscriptions);
-        $latestSubscription = $subscriptionCollection->first();
-        return $latestSubscription;
+    public function latestSubs(): HasOne
+    {
+        return $this->subscribe()->one()->where('subscriptionStatus', 'Active')->latest('subscribeDate');
     }
 
 }

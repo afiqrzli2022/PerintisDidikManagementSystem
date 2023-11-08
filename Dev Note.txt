@@ -3,9 +3,13 @@ use Illuminate\Support\Facades\Log;//debug
 dd();
 
 Current Working Project
-- Show (form education level must follow db and edit form) (done)
-- Edit Package 
-- 
+payment method
+
+COMMIT db (need to apply rollback for exception)
+    admin prof
+    tutor prof
+    student prof
+    subscription student (add and edit subscription)
 
 Search function
     edulevel admin  
@@ -27,11 +31,9 @@ Authencticate Middleware
 Manage Services 
     no error for add edulevel
 
-Popup Problem 
-    Tekan back popup reshow
-        edulevel admin  
-        package admin
 
+Other Problem 
+    the payment change only work if select bigger package , so can pay balance , if select lower pacakge refund need to be use.
 
 SYAHRUL
 

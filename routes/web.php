@@ -165,48 +165,50 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
 /*--------------------------------------------------- student ---------------------------------------------------*/
 
 Route::middleware('auth', 'checkUserRole:Student')->group(function () { /*--------Session for student---------*/
+    
+    Route::middleware(['checkSubscription'])->group(function () { /*------ Check Subscription else redirect -------- */
 
-    Route::get('/student/home', function () {
-        return view('student.home');
-    })->name('student.home');
+        Route::get('/student/home', function () {
+            return view('student.home');
+        })->name('student.home');
 
-    /*------- student profile page -------*/
-    Route::get('/student/profile', function () {
-        return view('student.profile');
-    })->name('student.profile');
-    Route::post('/student/profile', [StudentController::class, 'updateProfile'])->name('updatedProfileStudent');
+        /*------- student profile page -------*/
+        Route::get('/student/profile', function () {
+            return view('student.profile');
+        })->name('student.profile');
+        Route::post('/student/profile', [StudentController::class, 'updateProfile'])->name('updatedProfileStudent');
 
-    /*-------------------------------*/
+        /*-------------------------------*/
 
-    /*------- student profile-edit page -------*/
-    Route::get('/student/profile-edit', function () {
-        return view('student.profile-edit');
-    })->name('student.profile-edit');
-    /*-------------------------------*/
+        /*------- student profile-edit page -------*/
+        Route::get('/student/profile-edit', function () {
+            return view('student.profile-edit');
+        })->name('student.profile-edit');
+        /*-------------------------------*/
 
-    /*------- student schedule page -------*/
-    Route::get('/student/schedule', function () {
-        return view('student.schedule');
-    })->name('student.schedule');
-    /*-------------------------------*/
+        /*------- student schedule page -------*/
+        Route::get('/student/schedule', function () {
+            return view('student.schedule');
+        })->name('student.schedule');
+        /*-------------------------------*/
+
+        /*------- student payment page -------*/
+        Route::get('/student/payment', [PaymentController::class, 'UserPayment'])->name('student.payment');
+        Route::get('/student/payment?success', [PaymentController::class, 'UserPayment'])->name('student.payment2');
+        /*-------------------------------*/
+
+        /*------- student payment-details page -------*/
+        Route::get('/student/payment-details', function () {
+            return view('student.payment-details');
+        })->name('student.payment-details');
+        Route::post('/student/payment-details', [PaymentController::class, 'charge']);
+        /*-------------------------------*/
+    
+    });
 
     /*------- student subscription page -------*/
     Route::get('/student/subscription', [SubscriptionController::class, 'viewSubs'])->name('student.subscription');
     Route::post('/student/subscription', [SubscriptionController::class, 'addSubscription']);
-
-    /*-------------------------------*/
-
-    /*------- student payment page -------*/
-    Route::get('/student/payment', [PaymentController::class, 'UserPayment'])->name('student.payment');
-    Route::get('/student/payment?success', [PaymentController::class, 'UserPayment'])->name('student.payment2');
-    /*-------------------------------*/
-
-    /*------- student payment-details page -------*/
-    Route::get('/student/payment-details', function () {
-        return view('student.payment-details');
-    })->name('student.payment-details');
-    Route::post('/student/payment-details', [PaymentController::class, 'charge']);
-
     /*-------------------------------*/
 
 });
@@ -253,6 +255,10 @@ Route::middleware('auth', 'checkUserRole:Tutor')->group(function () {
 /*-------------------------------------------------------------------------------------------------------------*/
 
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+Route::get('/alldata',  function () {
+    return view('alldata');
+}); /* Testing Only */
 
 
 

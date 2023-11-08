@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Subject extends Model
 {
@@ -32,6 +33,12 @@ class Subject extends Model
     public function tutor(): BelongsTo
     {
         return $this->belongsTo(Tutor::class, 'tutorID');
+    }
+
+    public function subscribe(): BelongsToMany
+    {
+        return $this->belongsTo(Subscription::class, 'subscribesubject', 'subjectID', 'subscribeID')
+                        ->as("subscribe");
     }
     
 }

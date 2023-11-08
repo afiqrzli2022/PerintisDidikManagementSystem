@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -89,7 +90,7 @@ class StudentController extends Controller
         Auth::login($user);
 
         // Redirect to a success page or any other page as needed
-        return redirect()->route('student.home')->with('success', 'Registration successful!');
+        return redirect()->route('student.subscription')->with('success', 'Registration successful!');
     }
 
     public function updateProfile(Request $request){
@@ -131,6 +132,8 @@ class StudentController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        DB::beginTransaction();
+
         $user = User::find(Auth::user()->userID);
         $student = Student::find(Auth::user()->userID);
 
@@ -149,11 +152,12 @@ class StudentController extends Controller
         $user->save();
         $student->save();
 
+        DB::commit();
+
         session()->flash('success', 'Profile updated successfully.');
 
         return redirect()->route('student.profile');
 
     }
-    
     
 }

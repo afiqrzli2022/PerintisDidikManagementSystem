@@ -40,7 +40,7 @@
                 <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
                     @foreach ($educationLevel as $edu)
                     @foreach ($edu->package as $package) 
-                    <div class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" data-package-id="{{ $package->packageID }}" style="display: none;">
+                    <div class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" style="display: none;">
                         <div class="card border-warning border-2 h-100">
                             <div class="card-body d-flex flex-column justify-content-between p-4">
                                 <div>
@@ -74,7 +74,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <a class="btn btn-warning package-button" role="button" href="#" data-bs-target="#subscription-subject" data-bs-toggle="modal">
+                                <a class="btn btn-warning" role="button" href="#" data-bs-target="#subscription-subject" data-bs-toggle="modal">
                                     @if (Auth::user()->student->latestSubs && Auth::user()->student->latestSubs->package)
                                         @if ($package->packageID == Auth::user()->student->latestSubs->package->packageID)
                                             Change Subject
@@ -102,7 +102,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Choose your subject</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload();"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card shadow">
@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-light" type="button" data-bs-dismiss="modal" onclick="location.reload();">Close</button>
+                    <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
                     <button class="btn btn-primary" type="button" id="subscribe-btn">Subscribe</button>
                 </div>
             </div>
@@ -141,7 +141,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-
             // Listen for changes in the education level dropdown
             $('#educationLevelSelect').change(function () {
                 // Get the selected education level value
@@ -164,13 +163,6 @@
             $('#subscription-subject').on('show.bs.modal', function (event) {
                 const button = $(event.relatedTarget); // Button that triggered the modal
                 const eduId = button.closest('.package-card').data('edu-id'); // Get the eduID from the package-card
-                
-                $('.package-button').click(function () {
-                    const subjectQuantity = button.closest('.package-card').data('subject-quantity'); // Get the packageID from the package-card
-                    const packageId = button.closest('.package-card').data('package-id'); // Get the packageID from the package-card
-                    $('#subscribe-btn').attr('data-subject-quantity', subjectQuantity);
-                    $('#subscribe-btn').attr('data-package-id', packageId);
-                });
                 const modal = $(this);
 
                 // Update the modal title based on the selected education level
@@ -224,19 +216,19 @@
 
                 // Handle form submission
             $('#subscribe-btn').click(function () {
-                
-                // Get the subjectQuantity for the selected package
-                const subjectQuantity = $(this).data('subject-quantity');
-                const packageId = $(this).data('package-id');
-                
+
                 // Get the selected education level and package ID
                 const selectedEduId = $('#educationLevelSelect').val();
-                const selectedPackageCard = $('.package-card[data-edu-id="' + selectedEduId + '"]').find('input[name="packageID"]').val();
+                const selectedPackageId = $('.package-card[data-edu-id="' + selectedEduId + '"]').find('input[name="packageID"]').val();
+                alert(selectedPackageId);
 
                 // Get the selected subject IDs
                 const selectedSubjectIds = $('input[name="subjectID[]"]:checked').map(function () {
                     return this.value;
                 }).get();
+
+                // Get the subjectQuantity for the selected package
+                const subjectQuantity = $('.package-card[data-edu-id="' + selectedEduId + '"]').data('subject-quantity');
 
                 if (selectedSubjectIds.length > subjectQuantity) {
                     // Display an error message or prevent form submission
@@ -265,7 +257,7 @@
                 $('<input>').attr({
                     type: 'hidden',
                     name: 'packageID',
-                    value: packageId
+                    value: selectedPackageId
                 }).appendTo('#subscription-form');
 
                 // Add hidden input fields for the selected subject IDs
@@ -278,7 +270,7 @@
                 });
 
                 // Submit the form
-                $('#subscription-form').submit();
+                //$('#subscription-form').submit();
             });
         });
     </script>

@@ -123,6 +123,8 @@ class TutorController extends Controller
             return back()->withErrors($validator)->withInput();
         }
     
+        DB::beginTransaction();
+
         $user = User::find(Auth::user()->userID);
         $tutor = Tutor::find(Auth::user()->userID);
     
@@ -140,6 +142,8 @@ class TutorController extends Controller
         $tutor->save();
     
         session()->flash('success', 'Profile updated successfully.');
+
+        DB::commit();
     
         return redirect()->route('tutor.profile');
     }

@@ -124,16 +124,18 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="username"><strong>Package&nbsp;</strong></label>
-                                                    <p style="color: rgb(78,93,120);">SPM Package B</p>
+                                                    <p style="color: rgb(78,93,120);">
+                                                        {{ Auth::user()->student->latestSubs->package->packageName}} 
+                                                        ({{ Auth::user()->student->latestSubs->package->educationlevel->eduName}})
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="email"><strong>Subject Taken</strong></label>
                                                     <ul>
-                                                        <li>Bahasa Melayu Form 5</li>
-                                                        <li>History Form 5</li>
-                                                        <li>Mathematics Form 5</li>
-                                                        <li>Additional Mathematics Form5&nbsp;</li>
+                                                        @foreach(Auth::user()->student->latestSubs->subject as $subject)
+                                                            <li>{{$subject->subjectName}}</li>
+                                                        @endforeach
                                                     </ul>
                                                 </div>
                                             </div>
@@ -141,7 +143,9 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="first_name"><strong>Price</strong></label>
-                                                    <p style="color: rgb(78,93,120);">RM100.00</p>
+                                                    <p style="color: rgb(78,93,120);">RM
+                                                        {{ Auth::user()->student->latestSubs->package->packagePrice}} 
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
