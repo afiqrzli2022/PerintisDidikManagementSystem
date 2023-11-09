@@ -20,6 +20,11 @@ class SubscriptionController extends Controller
         return view('admin.subscription', compact('studentInfo'));
     }
 
+    public function adminViewDetail(Request $request){
+        $studentDetail = Student::find($request->route('studentID'));
+        return view('admin.subscription-details', compact('studentDetail'));
+    }
+
     public function viewSubs(){
         $educationLevel = EducationLevel::all();
         return view('student.subscription', compact('educationLevel'));

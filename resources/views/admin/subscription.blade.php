@@ -52,7 +52,7 @@
                                     <td style="text-align: center;">SPM Package A</td>
                                     <td style="text-align: center;">2</td>
                                     <td style="text-align: center;">50</td>
-                                    <td style="text-align: center;"><a class="btn btn-primary" role="button" href='subscription-details'><i class="fas fa-info-circle" style="color: rgb(255,255,255);"></i>&nbsp;Details<span class="text-white-50 icon"></span></a></td>
+                                    <td style="text-align: center;"><a class="btn btn-primary" role="button" href='subscription/{{$student -> userID}}'><i class="fas fa-info-circle" style="color: rgb(255,255,255);"></i>&nbsp;Details<span class="text-white-50 icon"></span></a></td>
                                 </tr>
                             </tbody>
                             @endforeach
@@ -77,25 +77,6 @@
             </div>
         </div>
     </section>
-    <div class="modal fade" role="dialog" tabindex="-1" id="add-education-level">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Education Level</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"><label class="form-label" id="package-name" for="username"><strong>Education Level Name</strong></label><input class="form-control" type="text" id="education-level-name" value="" name="education-level-name"></div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="reset" data-bs-dismiss="modal">Clear</button><button class="btn btn-primary" type="button">Update</button></div>
-            </div>
-        </div>
-    </div>
 
     @include('frame.footer')
 

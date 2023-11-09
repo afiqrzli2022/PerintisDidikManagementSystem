@@ -153,9 +153,7 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
     /*-------------------------------*/
 
     /*------- subscription-details page -------*/
-    Route::get('/admin/subscription-details', function () {
-        return view('admin.subscription-details');
-    })->name('admin.subscription-details');
+    Route::get('/admin/subscription/{studentID}', [SubscriptionController::class, 'adminViewDetail'])->name('admin.subscription-details');
     /*-------------------------------*/
 
 });
