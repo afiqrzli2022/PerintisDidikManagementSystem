@@ -55,7 +55,7 @@ class AdministratorController extends Controller
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
             'userEmail' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
 
             'adminRoles' => 'required|string|max:45',
             'officeNumber' => 'required|string|regex:/^0\d{8,9}$/|max:10',
@@ -84,6 +84,7 @@ class AdministratorController extends Controller
             'password' => [
                 'required' => 'The password is required.',
                 'min' => 'The password must be at least 6 characters.',
+                'confirmed' => 'The password confirmation does not match.',
             ],
             'officeNumber' => [
                 'required' => 'The office phone number is required.',

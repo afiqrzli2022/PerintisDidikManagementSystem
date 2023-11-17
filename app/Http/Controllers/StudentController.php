@@ -55,7 +55,7 @@ class StudentController extends Controller
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
             'userEmail' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
 
             'guardianName' => 'required|string|max:100',
             'guardianNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
@@ -85,6 +85,7 @@ class StudentController extends Controller
             'password' => [
                 'required' => 'The password is required.',
                 'min' => 'The password must be at least 6 characters.',
+                'confirmed' => 'The password confirmation does not match.',
             ],
             'guardianName' => [
                 'required' => 'The guardian name is required.',

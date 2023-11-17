@@ -45,10 +45,11 @@
                         @endif
                         <div class="mb-3"><input class="shadow-sm form-control" type="password" id="password" name="password" placeholder="Password"></div>
                         @if($errors->has('password'))
-                            <div class="alert alert-danger">
-                                {{ $errors->first('password') }}
-                            </div>
+                        <div class="alert alert-danger">
+                            {{ $errors->first('password') }}
+                        </div>
                         @endif
+                        <div class="mb-3"><input class="shadow-sm form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="Re-Enter Password"></div>
                         
                         <hr>
                         <div class="mb-3">
