@@ -44,18 +44,26 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            @foreach ($studentInfo as $student)
                             <tbody>
+                                @foreach ($studentInfo as $student)
                                 <tr>
                                     <td>{{$student -> user -> userName}}</td>
-                                    <td style="text-align: center;">SPM</td>
-                                    <td style="text-align: center;">SPM Package A</td>
-                                    <td style="text-align: center;">2</td>
-                                    <td style="text-align: center;">50</td>
+                                    @if ($student -> latestSubs)
+                                        <td style="text-align: center;">{{$student -> latestSubs -> package -> educationLevel -> eduName}}</td>
+                                        <td style="text-align: center;">{{$student -> latestSubs -> package -> packageName}}</td>
+                                        <td style="text-align: center;">{{$student -> latestSubs -> package -> subjectQuantity}}</td>
+                                        <td style="text-align: center;">{{$student -> latestSubs -> package -> packagePrice}}</td>
+                                    @else
+                                    <td style="text-align: center;">Not yet subscribe</td>                                      
+                                    <td style="text-align: center;"></td>                                      
+                                    <td style="text-align: center;"></td>                                      
+                                    <td style="text-align: center;"></td>                                      
+                                    @endif
                                     <td style="text-align: center;"><a class="btn btn-primary" role="button" href='subscription/{{$student -> userID}}'><i class="fas fa-info-circle" style="color: rgb(255,255,255);"></i>&nbsp;Details<span class="text-white-50 icon"></span></a></td>
+                                    
                                 </tr>
+                                @endforeach
                             </tbody>
-                            @endforeach
                         </table>
                     </div>
                     <div class="row">

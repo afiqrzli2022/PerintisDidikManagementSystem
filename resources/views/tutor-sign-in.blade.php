@@ -29,7 +29,7 @@
                         
                         <input type="hidden" id="userType" name="userType" value="Tutor">
                         <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Log in</button></div>
-                        <p>Dont have an account?&nbsp;<a href='student-sign-up'>Sign up</a>&nbsp;</p>
+                        <p>Dont have an account?&nbsp;<a href='tutor-sign-up'>Sign up</a>&nbsp;</p>
                     </form>
                 </div>
             </div>

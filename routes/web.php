@@ -102,9 +102,8 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
     /*-------------------------------*/
 
     /*------- Manage-payment page -------*/
-    Route::get('/admin/manage-payment', function () {
-        return view('admin.manage-payment');
-    })->name('admin.manage-payment');
+    Route::get('/admin/manage-payment', [PaymentController::class, 'adminView'])->name('admin.manage-payment');
+    Route::get('/admin/manage-payment/{studentID}', [PaymentController::class, 'adminViewDetail'])->name('admin.manage-payment-detail');
     /*-------------------------------*/
 
     /*------- education-level page -------*/
@@ -149,10 +148,6 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
 
     /*------- subscription page -------*/
     Route::get('/admin/subscription', [SubscriptionController::class, 'adminView'])->name('admin.subscription');
-
-    /*-------------------------------*/
-
-    /*------- subscription-details page -------*/
     Route::get('/admin/subscription/{studentID}', [SubscriptionController::class, 'adminViewDetail'])->name('admin.subscription-details');
     /*-------------------------------*/
 
@@ -191,8 +186,9 @@ Route::middleware('auth', 'checkUserRole:Student')->group(function () { /*------
         /*-------------------------------*/
 
         /*------- student payment page -------*/
-        Route::get('/student/payment', [PaymentController::class, 'UserPayment'])->name('student.payment');
-        Route::get('/student/payment?success', [PaymentController::class, 'UserPayment'])->name('student.payment2');
+        Route::get('/student/payment', function () {
+            return view('student.payment');
+        })->name('student.payment');
         /*-------------------------------*/
 
         /*------- student payment-details page -------*/

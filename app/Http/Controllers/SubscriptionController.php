@@ -16,7 +16,17 @@ class SubscriptionController extends Controller
 {
 
     public function adminView(){
-        $studentInfo = Student::all();
+        //$studentInfo = Student::all();
+        $studentInfo = Student::leftJoin('subscribe as sb', 'student.userID', '=', 'sb.studentID')
+        ->where(function ($query) {
+            $query->whereNull('sb.subscriptionStatus')
+                ->orWhere('sb.subscriptionStatus', '=', 'Active');
+        })
+        ->orderBy('sb.subscribeDate', 'asc')
+        ->select('*')
+        ->with('subscribe')
+        ->get();    
+
         return view('admin.subscription', compact('studentInfo'));
     }
 
@@ -84,6 +94,7 @@ class SubscriptionController extends Controller
         $Payment -> paymentID = uniqid();
         $Payment -> paymentStatus = 'Pending';
         $Payment -> paymentPrice = $Subscription->package->packagePrice;
+        $Payment -> packageID = $Subscription->package->packageID;
 
         $Subscription->payment()->save($Payment);
 

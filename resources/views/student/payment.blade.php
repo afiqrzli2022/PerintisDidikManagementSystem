@@ -57,25 +57,27 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="username"><strong>Student Name</strong></label>
-                                                    <p style="color: rgb(78,93,120);">{{$User ->userName}}</p>
+                                                    <p style="color: rgb(78,93,120);">{{ Auth::User() ->userName }}</p>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="email"><strong>Identity Card</strong></label>
-                                                    <p style="color: rgb(78,93,120);">{{$User -> userID}}</p>
+                                                    <p style="color: rgb(78,93,120);">{{ Auth::User() -> userID}}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="username"><strong>Package</strong></label>
-                                                    <p style="color: rgb(78,93,120);">Mathematics Package</p>
+                                                    <p style="color: rgb(78,93,120);">{{ Auth::User() -> student -> latestSubs -> package -> packageName}}</p>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="email"><strong>Subject</strong></label>
                                                     <ul>
-                                                        <li>Mathematics</li>
+                                                        @foreach( Auth::User() -> student -> latestSubs -> subject as $subject)
+                                                            <li>{{ $subject -> subjectName }}</li>
+                                                        @endforeach
                                                     </ul>
                                                 </div>
                                             </div>
@@ -84,22 +86,32 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="username"><strong>Month</strong></label>
-                                                    <p style="color: rgb(78,93,120);">August</p>
+                                                    <p style="color: rgb(78,93,120);">{{ Auth::User() -> student -> latestSubs -> subscribeDate }}</p>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="email"><strong>Subject Fee</strong></label>
-                                                    <p style="color: rgb(78,93,120);">RM 100</p>
+                                                    @if(Auth::User() -> student -> latestSubs -> pendingPayment)
+                                                        <p style="color: rgb(78,93,120);">RM {{ Auth::User() -> student -> latestSubs -> pendingPayment -> paymentPrice }}</p>
+                                                    @else
+                                                        <p style="color: rgb(78,93,120);">RM {{ Auth::User() -> student -> latestSubs -> latestPayment -> paymentPrice }}</p>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="email"><strong>Payment status</strong></label>
-                                                    <p style="color: rgb(78,93,120);"><strong>No</strong></p>
+                                                    @if(Auth::User() -> student -> latestSubs -> pendingPayment)
+                                                        <p style="color: rgb(78,93,120);"><strong>{{ Auth::User() -> student -> latestSubs -> pendingPayment -> paymentStatus }}</strong></p>
+                                                    @else
+                                                        <p style="color: rgb(78,93,120);"><strong>{{ Auth::User() -> student -> latestSubs -> latestPayment -> paymentStatus }}</strong></p>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="mb-3 d-flex justify-content-end"><a class="btn btn-primary btn-sm" role="button" href='payment-details'>Pay Now</a></div>
+                                        @if(Auth::User() -> student -> latestSubs -> pendingPayment)
+                                            <div class="mb-3 d-flex justify-content-end"><a class="btn btn-primary btn-sm" role="button" href='payment-details'>Pay Now</a></div>
+                                        @endif
                                     </form>
                                 </div>
                             </div>

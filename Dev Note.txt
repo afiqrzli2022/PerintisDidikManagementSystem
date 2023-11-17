@@ -3,7 +3,16 @@ use Illuminate\Support\Facades\Log;//debug
 dd();
 
 Current Working Project
-payment method
+    payment method (done)
+    combine payment1 and payment2 (done)
+    view payment status (admin) (sambung sebab me dah combine two relation into one , which is truepayment)
+    notify student
+    update payment status for admin
+
+    file : manage-payment.blade.php, paymentController.php, Subscription.php
+
+CRUCIALLLL 
+    every page need to check especially list if pendingSubscription or not, else latestSubscription
 
 COMMIT db (need to apply rollback for exception)
     admin prof
@@ -41,6 +50,8 @@ Form Design
     admin/package -> form add & edit nak besarkan input form education level
 
     admin/edulevel -> need one more attribute to show , eduID
+
+    student/make-payment 
 
 
 

@@ -67,6 +67,11 @@
                                                     <p style="color: rgb(78,93,120);">{{ Auth::user()->userName }}</p>
                                                 </div>
                                             </div>
+                                            <div class="col">
+                                                <div class="mb-3"><label class="form-label" for="email"><strong>IC Number</strong></label>
+                                                    <p style="color: rgb(78,93,120);">{{ Auth::user()->userID }}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">

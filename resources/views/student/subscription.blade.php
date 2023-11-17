@@ -166,7 +166,7 @@
                 const eduId = button.closest('.package-card').data('edu-id'); // Get the eduID from the package-card
                 
                 $('.package-button').click(function () {
-                    const subjectQuantity = button.closest('.package-card').data('subject-quantity'); // Get the packageID from the package-card
+                    const subjectQuantity = button.closest('.package-card').data('subject-quantity'); // Get the subj from the package-card
                     const packageId = button.closest('.package-card').data('package-id'); // Get the packageID from the package-card
                     $('#subscribe-btn').attr('data-subject-quantity', subjectQuantity);
                     $('#subscribe-btn').attr('data-package-id', packageId);

@@ -18,21 +18,58 @@
 
                         <div class="mb-3"><h3>Student Information</h3></div>
                         <hr>
-                        <div class="mb-3"><input class="form-control" type="text" id="userName" name="userName" placeholder="Name"></div>
-                        <div class="mb-3"><input class="form-control" type="text" id="userID" name="userID" placeholder="Identity Card"></div>
-                        <div class="mb-3"><input class="form-control" type="tel" id="userNumber" name="userNumber" placeholder="Phone Number"></div>
-                        <div class="mb-3"><input class="shadow-sm form-control" type="email" id="userEmail" name="userEmail" placeholder="Email"></div>
-                        <div class="mb-3"><input class="shadow-sm form-control" type="password" id="password" name="password" placeholder="Password"></div>
-                        
+                        <div class="mb-3"><input class="form-control" type="text" id="userName" name="userName" value="{{ old('userName') }}" placeholder="Name"></div>
+                        @if($errors->has('userName'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('userName') }}
+                            </div>
+                        @endif
+                        <div class="mb-3"><input class="form-control" type="text" id="userID" name="userID" value="{{ old('userID') }}" placeholder="IC Number"></div>
+                        @if($errors->has('userID'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('userID') }}
+                            </div>
+                        @endif
+                        <div class="mb-3"><input class="form-control" type="tel" id="userNumber" name="userNumber" value="{{ old('userNumber') }}" placeholder="Phone Number"></div>
+                        @if($errors->has('userNumber'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('userNumber') }}
+                            </div>
+                        @endif
+                        <div class="mb-3"><input class="shadow-sm form-control" type="email" id="userEmail" name="userEmail" value="{{ old('userEmail') }}" placeholder="Email"></div>
+                        @if($errors->has('userEmail'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('userEmail') }}
+                            </div>
+                        @endif
+                        <div class="mb-3"><input class="shadow-sm form-control" type="password" id="password" name="password" value="{{ old('password') }}" placeholder="Password"></div>
+                        @if($errors->has('password'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('password') }}
+                            </div>
+                        @endif
+
                         <div class="mb-3"><h3>Gurdian Information</h3></div>
                         <hr>
-                        <div class="mb-3"><input class="form-control" type="text" id="guardianName" name="guardianName" placeholder="Name"></div>
-                        <div class="mb-3"><input class="form-control" type="tel" id="guardianNumber" name="guardianNumber" placeholder="Phone Number"></div>
-                        <div class="mb-3"><textarea class="form-control" id="studentAddress" name="studentAddress" placeholder="Address"></textarea></div>
+                        <div class="mb-3"><input class="form-control" type="text" id="guardianName" name="guardianName" value="{{ old('guardianName') }}" placeholder="Name"></div>
+                        @if($errors->has('guardianName'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('guardianName') }}
+                            </div>
+                        @endif
+                        <div class="mb-3"><input class="form-control" type="tel" id="guardianNumber" name="guardianNumber" value="{{ old('guardianNumber') }}" placeholder="Phone Number"></div>
+                        @if($errors->has('guardianNumber'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('guardianNumber') }}
+                            </div>
+                        @endif
+                        <div class="mb-3"><textarea class="form-control" id="studentAddress" name="studentAddress" value="{{ old('studentAddress') }}" placeholder="Address"></textarea></div>
+                        @if($errors->has('studentAddress'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('studentAddress') }}
+                            </div>
+                        @endif
 
-                        <div class="mb-3">
-                            <div class="form-check" style="font-size: 10px;"><input class="form-check-input" type="checkbox" id="formCheck"><label class="form-check-label" for="formCheck">By clicking Sign Up, you agree to our Terms, Privacy Policy and Cookies Policy. You may receive SMS notifications from us and can opt out at any time.</label></div>
-                        </div>
                         <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Sign up</button></div>
                         <p>Already have an account?&nbsp;<a href='student-sign-in'>Sign In</a>&nbsp;</p>
                     </form>

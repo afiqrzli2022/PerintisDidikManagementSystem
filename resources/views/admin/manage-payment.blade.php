@@ -46,47 +46,36 @@
                                     <th style="text-align: center;">No</th>
                                     <th style="text-align: center;">Student Name</th>
                                     <th style="text-align: center;">Package</th>
+                                    <th style="text-align: center;">Payment Date</th>
                                     <th style="text-align: center;">Subscription Fee</th>
                                     <th style="text-align: center;">Payment Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align: center;">1</td>
-                                    <td style="text-align: center;">Adam</td>
-                                    <td style="text-align: center;">A</td>
-                                    <td style="text-align: center;">RM 45</td>
-                                    <td style="text-align: center;">Pending</td>
-                                    <td style="text-align: center;"><button class="btn btn-primary" type="button" style="margin-right: 10px;" data-bs-target="#manage-payment-details" data-bs-toggle="modal"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">2</td>
-                                    <td style="text-align: center;">Hawa</td>
-                                    <td style="text-align: center;">B</td>
-                                    <td style="text-align: center;">RM 50</td>
-                                    <td style="text-align: center;">Pending</td>
-                                    <td style="text-align: center;"><button class="btn btn-primary" type="button" style="margin-right: 10px;"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">3</td>
-                                    <td style="text-align: center;">Rina</td>
-                                    <td style="text-align: center;">C</td>
-                                    <td style="text-align: center;">RM 70</td>
-                                    <td style="text-align: center;">Pending</td>
-                                    <td style="text-align: center;"><button class="btn btn-primary" type="button" style="margin-right: 10px;"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
-                                </tr>
+                                @foreach ($studentInfo as $student)
+                                    <tr>
+                                        <td style="text-align: center;">{{ $loop->iteration}}</td>
+                                        <td style="text-align: center;">{{ $student->user->userName }}</td>
+                                        @if($student->latestSubs)
+                                            <td style="text-align: center;">{{ $student->latestSubs->package->packageName }}</td>
+                                            @if ($student->latestSubs->pendingPayment)
+                                                <td style="text-align: center;"></td>
+                                                <td style="text-align: center;">{{ $student->latestSubs->pendingPayment->paymentPrice}}</td>
+                                                <td style="text-align: center;">{{ $student->latestSubs->pendingPayment->paymentStatus }}</td>
+                                                <td style="text-align: center;"><button class="btn btn-primary" id="detail-btn" type="button" style="margin-right: 10px;" data-bs-target="#manage-payment-details" data-bs-toggle="modal" data-student-id="{{ $student->userID }}"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
+                                                @elseif($student->latestSubs->latestPayment)
+                                                <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentDate ? \Carbon\Carbon::parse($student->latestSubs->latestPayment->paymentDate)->format('d/m/y') : '' }}</td> 
+                                                <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentPrice}}</td>
+                                                <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentStatus }}</td>
+                                                <td style="text-align: center;"><button class="btn btn-primary" id="detail-btn" type="button" style="margin-right: 10px;" data-bs-target="#manage-payment-details" data-bs-toggle="modal" data-student-id="{{ $student->userID }}"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
+                                            @endif
+                                        @else
+                                            <td style="text-align: center;">Not yet subscribe</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td style="text-align: center;"><strong>No</strong></td>
-                                    <td style="text-align: center;"><strong>Student Name</strong></td>
-                                    <td style="text-align: center;"><strong>Package</strong></td>
-                                    <td style="text-align: center;"><strong>Subscription Fee</strong></td>
-                                    <td style="text-align: center;"><strong>Payment Status</strong></td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                     <div class="row">
@@ -170,6 +159,31 @@
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#detail-btn').click(function () {
+                const studentID = $(this).data('student-id');
+                $.ajax({
+                    method: 'GET',
+                    url: '/admin/manage-payment/'+ studentID,
+                    success: function(data) {
+                        // Populate the form fields with retrieved data
+                        $('#package-name').text(data.packageName);
+                        $('#package').text(data.packageName); // Update package field
+                        $('#subscription-fee').text(data.subscriptionFee);
+                        $('#month').text(data.month);
+                        $('#payment-status').val(data.paymentStatus);
+                        alert(JSON.stringify(data));
+                        // Update other fields as needed
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+        </script>
 
     @include('frame.footer')
 

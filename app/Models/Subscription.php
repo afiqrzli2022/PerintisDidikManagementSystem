@@ -35,10 +35,27 @@ class Subscription extends Model
     {
         return $this->HasMany(Payment::class, 'subscribeID', 'subscribeID');
     }
+    
+    public function onePayment(): HasOne
+    {
+        $pendingPayment = $this->payment()->one()->where('paymentStatus', 'Pending')->first();
+
+        if ($pendingPayment !== null) {
+            return $pendingPayment;
+        }
+        
+        return $this->payment()->one()->orderBy('paymentTime', 'desc') -> latest('paymentDate');
+    
+    }
 
     public function pendingPayment(): HasOne
     {
         return $this->payment()->one()->where('paymentStatus', 'Pending');
+    }
+    
+    public function latestPayment(): HasOne
+    {
+        return $this->payment()->one()->orderBy('paymentTime', 'desc') -> latest('paymentDate');
     }
 
     public function subject(): BelongsToMany

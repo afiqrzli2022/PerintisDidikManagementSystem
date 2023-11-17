@@ -49,17 +49,55 @@ class AdministratorController extends Controller
 
     public function register(Request $request)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'userID' => 'required|string|max:12|unique:users,userID',
+
+        $rules = [
+            'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|max:15',
+            'userNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
             'userEmail' => 'required|email',
             'password' => 'required|string|min:6',
 
             'adminRoles' => 'required|string|max:45',
-            'officeNumber' => 'required|string|max:10',
-        ]);
+            'officeNumber' => 'required|string|regex:/^0\d{8,9}$/|max:10',
+        ];
+
+        $errorMsg = [
+            'userID' => [
+                'required' => 'IC Number is required.',
+                'max' => 'IC Number must not exceed 14 characters.',
+                'unique' => 'IC Number has already been used.',
+                'regex' => 'Please enter IC Number in the following format: 000000-00-0000',
+            ],
+            'userName' => [
+                'required' => 'The full name is required.',
+                'max' => 'The full name must not exceed 100 characters.',
+            ],
+            'userNumber' => [
+                'required' => 'The phone number is required.',
+                'max' => 'The phone number must not exceed 11 characters.',
+                'regex' => 'Please enter the phone number in the following format: 0102345678',
+            ],
+            'userEmail' => [
+                'required' => 'The email address is required.',
+                'email' => 'Invalid email format.',
+            ],
+            'password' => [
+                'required' => 'The password is required.',
+                'min' => 'The password must be at least 6 characters.',
+            ],
+            'officeNumber' => [
+                'required' => 'The office phone number is required.',
+                'max' => 'The office phone number must not exceed 10 characters.',
+                'regex' => 'Please enter the office phone number in the following format: 0200011113',
+            ],
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $errorMsg);
+    
+        if ($validator->fails()) {
+            $request->flash();
+            return back()->withErrors($validator)->withInput();
+        }
 
         DB::beginTransaction();
 

@@ -72,7 +72,7 @@
                                                 @endif
                                             </div>
                                             <div class="col">
-                                                <div class="mb-3"><label class="form-label" for="email"><strong>Identity Card</strong></label><input class="form-control" type="text" id="identity-card-student" value="{{ Auth::user()->userID }}" name="userID" disabled></div>
+                                                <div class="mb-3"><label class="form-label" for="email"><strong>IC Number</strong></label><input class="form-control" type="text" id="identity-card-student" value="{{ Auth::user()->userID }}" name="userID" disabled></div>
                                             </div>
                                         </div>
                                         <div class="row">

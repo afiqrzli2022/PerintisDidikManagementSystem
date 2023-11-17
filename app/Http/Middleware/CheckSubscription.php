@@ -17,6 +17,6 @@ class CheckSubscription
         }
 
         // If the student doesn't have a subscription, redirect to the subscription page
-        return redirect()->route('student.subscription');
+        return redirect()->route('student.subscription')->with('error', 'User need to subscribe to a package first.');
     }
 }
