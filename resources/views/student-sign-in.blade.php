@@ -15,7 +15,7 @@
                     <h2 class="display-6 fw-bold mb-5">Sign in as<br><span class="underline pb-1"><strong>Student</strong></span></h2>
                     <form method="post" action="{{ route('student.signin') }}">
                     @csrf
-                        <div class="mb-3"><input class="shadow form-control" type="text" id="userID" name="userID" placeholder="Identity Card"></div>
+                        <div class="mb-3"><input class="shadow form-control" type="text" id="userID" name="userID" placeholder="IC Number"></div>
 
                         @error('userID')
                             <div class="alert alert-danger">{{ $message }}</div>

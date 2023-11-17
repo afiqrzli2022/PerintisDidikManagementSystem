@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Payment;
 use App\Models\Student;
+use App\Models\Subscription;
+use App\Models\User;
 
 class PaymentController extends Controller
 {
@@ -28,8 +31,31 @@ class PaymentController extends Controller
     }
     
     public function adminViewDetail($studentID){
-        $studentDetail = Student::with('latestSubs.onepayment')->find($studentID);
+        $studentDetail = User::with(
+            'student.latestSubs.onePayment',
+            'student.latestSubs.package',
+            'student.latestSubs.subject'
+            )->find($studentID);
         return response()->json($studentDetail);
+    }
+
+    public function adminUpdatePayment(Request $request){
+        if($request->input('paymentStatus') !== 'Pending'){
+            $payment = Payment::find($request->input('paymentID'));
+            $subscribe = Subscription::find($payment->subscribeID);
+
+            $payment -> paymentStatus = 'Paid';
+            $payment -> paymentDate = Carbon::today();
+            $payment -> paymentTime = Carbon::now();
+            $payment -> paymentAmount = $payment -> paymentPrice;
+            $payment -> paymentMethod = 'Cash';
+            $subscribe -> isPaid = 'Yes';
+            $subscribe -> adminID = Auth::user()->userID;
+            $subscribe -> save();
+            $payment -> save();
+        }
+
+        return redirect()->route('admin.manage-payment')->with('success', "Payment Status updated");
     }
 
     public function charge(Request $request)
@@ -43,61 +69,63 @@ class PaymentController extends Controller
         }
     }
 
+    public static function notifyPending(){
 
+        $studentInfo = Student::whereHas('latestSubs.pendingPayment', function ($query) {
+            $query->where('paymentStatus', 'Pending');
+        })->get();
 
-    //This is backup that shows all payment for current month
-    /*public function adminView(){
-        $currentMonth = Carbon::now()->format('Y-m');
+        $curl = curl_init();
+        $token = "chk2QtO5mfr7pzIDRoWWQlkhlRBZtESTijGCR473pTCsuEMVYSfBbna5aNLxub1Z";
+        $random = false;
+        $payload = $studentInfo->map(function ($student) {
+            return [
+                'phone' => $student->user->userNumber, // Replace with actual phone number field name
+                'message' => 
+'Hello '.$student->user->userName.',
+
+This is a friendly reminder regarding your pending payment for the *'.$student->latestSubs->package->packageName.' ('.$student->latestSubs->package->eduID.')* subscription. 
+
+*Payment ID  : '.$student->latestSubs->pendingPayment->paymentID.'*
+*Amount      : RM '.$student->latestSubs->pendingPayment->paymentPrice.'*
+*Month       : '.\Carbon\Carbon::parse($student->latestSubs->subscribeDate)->format('M y').'.*
+
+Please ensure the payment is made at your earliest convenience to avoid any disruption to your subscription. Thank you! 👍
+
+Your regard,
+Perintis Didik
+',
+            ];
+        })->toArray();
+
+        $payload = ['data' => $payload];
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+            array(
+                "Authorization: $token",
+                "Content-Type: application/json"
+            )
+        );
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
+        curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/v2/send-message");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        $resultArray = json_decode($result, true);
+
+        $status = $resultArray['status'];
+
+        if($status === true){
+            return redirect()->route('admin.manage-payment')->with('success', "Notification sent to all student with pending payment");
+        } else {
+            return redirect()->route('admin.manage-payment')->with('success', "Fail to send notification, please try again later");
+        }
         
-        $studentInfo =  Student::join('subscribe as sb', 'student.userID', '=', 'sb.studentID')
-            ->join('payment as p', 'sb.subscribeID', '=', 'p.subscribeID')
-            ->join('package as pg', 'p.packageID', '=', 'pg.packageID')
-            ->select('*')
-            ->whereYear('sb.subscribeDate', '=', now()->year)
-            ->whereMonth('sb.subscribeDate', '=', now()->month)
-            ->orderByRaw("CASE WHEN \"p\".\"paymentStatus\" = 'Pending' THEN 0 ELSE 1 END")
-            ->orderBy('sb.subscribeDate')
-            ->get();
-    
-        return view('admin.manage-payment', compact('studentInfo'));
     }
-    
-    public function adminView(){
-        $currentMonth = Carbon::now()->format('Y-m');
-        
-        $studentInfo = Student::with(['subscribe.payment' => function ($query) {
-            $query->orderBy('paymentStatus', 'desc')
-                  ->orderBy('paymentDate', 'asc');
-        }])
-        ->whereHas('subscribe', function ($query) use ($currentMonth) {
-            $query->where('subscriptionStatus', 'Active');
-        })
-        ->orWhereDoesntHave('subscribe') // Include students without subscriptions
-        ->get();
-
-        $studentInfo->transform(function ($student) {
-            if($student->latestSubs){
-                    // Sort payments by 'paymentStatus' and 'paymentDate'
-                    $sortedPayments = $student->latestSubs->payment->sortByDesc('paymentStatus')->sortBy('paymentDate');
-            
-                    // Get pending payments
-                    $pendingPayments = $sortedPayments->where('paymentStatus', 'Pending');
-            
-                    if ($pendingPayments->isNotEmpty()) {
-                        $student->latestSubs->payments = $pendingPayments;
-                    } else {
-                        // If no pending payments, take the latest payment
-                        $latestPayment = $sortedPayments->last();
-                        $student->latestSubs->payments = $latestPayment ? collect([$latestPayment]) : collect();
-                    }
-            }
-            return $student;
-        });
-
-        return view('admin.manage-payment', compact('studentInfo'));
-
-    }
-    
-    */
     
 }

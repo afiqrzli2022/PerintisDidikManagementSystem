@@ -49,12 +49,13 @@ class Payment extends Model
             
             //Changing RM to cents since stripe using cents format ex: for RM1 should use 100
             $stripeAmount = Auth::User() -> student -> latestSubs -> pendingPayment -> paymentPrice*100;
+            $month = Carbon::now()->format('M');
 
             $detail = $stripe->charges->create([
                 'amount' => $stripeAmount,
                 'currency' => 'myr',
                 'source' => $tokenId,
-                'description' => 'Name: Muhammad Adam Bin Irman, Dec, Package : Package A (SPM)',
+                'description' => 'Name: '.Auth::User()->userName.', '.$month.', Package : '.Auth::User()->student->latestSubs->package->packageName.' ('.Auth::User()->student->latestSubs->package->eduID.')',
             ]);
 
             $payment = Payment::find(Auth::User() -> student -> latestSubs -> pendingPayment -> paymentID);
@@ -72,6 +73,7 @@ class Payment extends Model
             $payment -> paymentAmount = $paymentAmount;
             $payment -> paymentDate = Carbon::today();
             $payment -> paymentTime = Carbon::now();
+            $payment -> paymentMethod = 'Online Payment';
 
             $payment -> save();
 

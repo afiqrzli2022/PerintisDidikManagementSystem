@@ -38,7 +38,7 @@ class Subscription extends Model
     
     public function onePayment(): HasOne
     {
-        $pendingPayment = $this->payment()->one()->where('paymentStatus', 'Pending')->first();
+        $pendingPayment = $this->payment()->one()->where('paymentStatus', 'Pending');
 
         if ($pendingPayment !== null) {
             return $pendingPayment;
@@ -63,33 +63,5 @@ class Subscription extends Model
         return $this->belongsToMany(Subject::class, 'subscribesubject', 'subscribeID', 'subjectID')
                         ->as('subject');
     }
-
-    public static function checkNumber(){
-        $curl = curl_init();
-        $token = "CrSX3QbbY1xQfkW30V5Qw88OS7DIn2yZbQctTzM9qiLC50nb7CC0Av5OlRgOzSer";
-        $random = true;
-        $payload = [
-            "data" => [
-                [
-                    'phone' => '60173551240',
-                    'message' => 'Afiq Razali ',
-                ]
-            ]
-        ];
-        curl_setopt($curl, CURLOPT_HTTPHEADER,
-            array(
-                "Authorization: $token",
-                "Content-Type: application/json"
-            )
-        );
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
-        curl_setopt($curl, CURLOPT_URL,  "https://solo.wablas.com/api/v2/send-message");
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-
-        $result = curl_exec($curl);
-        curl_close($curl);
-    }
+    
 }

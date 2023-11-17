@@ -161,5 +161,4 @@ class SubscriptionController extends Controller
 
     }
 
-
 }

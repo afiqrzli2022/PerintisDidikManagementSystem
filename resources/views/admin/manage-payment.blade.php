@@ -16,7 +16,7 @@
             </div>
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <a class="btn btn-primary " role="button" href='tutor-sign-in'>Notify Student</a>
+                <a class="btn btn-primary " role="button" href='notify-pending'>Notify Student</a>
                 </div>
             </div>
             <div class="card shadow">
@@ -68,7 +68,6 @@
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentDate ? \Carbon\Carbon::parse($student->latestSubs->latestPayment->paymentDate)->format('d/m/y') : '' }}</td> 
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentPrice}}</td>
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentStatus }}</td>
-                                                <td style="text-align: center;"><button class="btn btn-primary" id="detail-btn" type="button" style="margin-right: 10px;" data-bs-target="#manage-payment-details" data-bs-toggle="modal" data-student-id="{{ $student->userID }}"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
                                             @endif
                                         @else
                                             <td style="text-align: center;">Not yet subscribe</td>
@@ -105,27 +104,32 @@
                     <h4 class="modal-title">Update Payment</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="updateForm" method="post">
+                        @csrf
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" id="package-name" for="username"><strong>Student Name</strong></label>
-                                    <p style="color: rgb(78,93,120);">Muhammad Adam</p>
+                                <div class="mb-3"><label class="form-label" id="userName"><strong>Student Name</strong></label>
+                                    <p style="color: rgb(78,93,120);"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Package</strong></label>
-                                    <p style="color: rgb(78,93,120);">Package A</p>
+                                <div class="mb-3"><label class="form-label" id="packageName"><strong>Package</strong></label>
+                                    <p style="color: rgb(78,93,120);"></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3"><label class="form-label" id="eduLevel"><strong>Education Level</strong></label>
+                                    <p style="color: rgb(78,93,120);"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="last_name"><strong>Subject</strong></label>
-                                    <ul>
-                                        <li>Bahasa Melayu</li>
-                                        <li>Bahasa Ikan</li>
+                                <div class="mb-3"><label class="form-label" ><strong>Subject</strong></label>
+                                    <ul id="subject"> 
+
                                     </ul>
                                 </div>
                             </div>
@@ -133,29 +137,30 @@
                         <hr>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" id="package-name-1" for="username"><strong>Month</strong></label>
-                                    <p style="color: rgb(78,93,120);">May 2023</p>
+                                <div class="mb-3"><label class="form-label" id="month"><strong>Month</strong></label>
+                                    <p style="color: rgb(78,93,120);"></p>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Subscription Fee</strong></label>
-                                    <p style="color: rgb(78,93,120);">RM 203</p>
+                                <div class="mb-3"><label class="form-label" id="fee"><strong>Subscription Fee</strong></label>
+                                    <p style="color: rgb(78,93,120);"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Payment Status</strong></label><select class="form-select" id="payment-status">
-                                        <optgroup label="Choose your education level">
-                                            <option value="Pending" selected="">Pending</option>
+                                <div class="mb-3"><label class="form-label" for="email"><strong>Payment Status</strong></label><select class="form-select" name="paymentStatus">
+                                        <optgroup label="Choose status">
+                                            <option value="Pending">Pending</option>
                                             <option value="Paid">Paid</option>
                                         </optgroup>
                                     </select></div>
                             </div>
                         </div>
+                        <input type="hidden" id="paymentID" name="paymentID">
                     </form>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button">Update</button></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit" form="updateForm">Update</button></div>
             </div>
         </div>
     </div>
@@ -169,13 +174,26 @@
                     url: '/admin/manage-payment/'+ studentID,
                     success: function(data) {
                         // Populate the form fields with retrieved data
-                        $('#package-name').text(data.packageName);
-                        $('#package').text(data.packageName); // Update package field
+                        $('#userName').next('p').text(data.userName);
+                        $('#packageName').next('p').text(data.student.latest_subs.package.packageName); 
+                        $('#eduLevel').next('p').text(data.student.latest_subs.package.eduID);
                         $('#subscription-fee').text(data.subscriptionFee);
-                        $('#month').text(data.month);
-                        $('#payment-status').val(data.paymentStatus);
-                        alert(JSON.stringify(data));
-                        // Update other fields as needed
+                        $('#month').next('p').text(data.student.latest_subs.subscribeDate);
+                        $('#fee').next('p').text('RM '+data.student.latest_subs.package.packagePrice);
+                        $('#paymentID').val(data.student.latest_subs.one_payment.paymentID);
+                        //console.error(JSON.stringify(data));
+                        
+                        // Assuming data is the received JSON object
+                        var subjects = data.student.latest_subs.subject;
+
+                        // Displaying subject names
+                        var subjectsList = $('#subject');
+                        subjectsList.empty(); // Clear existing list items if any
+
+                        subjects.forEach(function(subject) {
+                            subjectsList.append('<li>' + subject.subjectName + '</li>');
+                        });
+                    
                     },
                     error: function(error) {
                         console.error(error);

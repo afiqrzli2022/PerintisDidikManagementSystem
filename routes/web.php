@@ -103,8 +103,13 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
 
     /*------- Manage-payment page -------*/
     Route::get('/admin/manage-payment', [PaymentController::class, 'adminView'])->name('admin.manage-payment');
+    Route::post('/admin/manage-payment', [PaymentController::class, 'adminUpdatePayment'])->name('admin.update-payment');
     Route::get('/admin/manage-payment/{studentID}', [PaymentController::class, 'adminViewDetail'])->name('admin.manage-payment-detail');
     /*-------------------------------*/
+
+    /* ---------notify student -----------*/
+    Route::get('/admin/notify-pending', [PaymentController::class, 'notifyPending'])->name('admin.notify-payment');
+    /* ---------------------------------*/
 
     /*------- education-level page -------*/
     Route::get('/admin/education-level', [EducationLevelController::class, 'indexListEdulevel'])->name('listedulevel');
