@@ -62,7 +62,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control" id="workingExperience" name="workingExperience" placeholder="Working Experience"></textarea>
+                            <textarea class="form-control" id="workingExperience" name="workingExperience" placeholder="Working Experience">{{ old('workingExperience') }}</textarea>
                         </div>
 
                         <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Sign up</button></div>

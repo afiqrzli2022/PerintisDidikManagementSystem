@@ -64,7 +64,7 @@
                                 {{ $errors->first('guardianNumber') }}
                             </div>
                         @endif
-                        <div class="mb-3"><textarea class="form-control" id="studentAddress" name="studentAddress" value="{{ old('studentAddress') }}" placeholder="Address"></textarea></div>
+                        <div class="mb-3"><textarea class="form-control" id="studentAddress" name="studentAddress" placeholder="Address">{{ old('studentAddress') }}</textarea></div>
                         @if($errors->has('studentAddress'))
                             <div class="alert alert-danger">
                                 {{ $errors->first('studentAddress') }}
