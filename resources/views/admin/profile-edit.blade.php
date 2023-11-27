@@ -98,12 +98,28 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        <hr>
                                         <div class="row">
                                             <div class="col">
-                                                <div class="mb-3"><label class="form-label" for="first_name"><strong>Password</strong></label><input class="form-control" type="password" id="password-student" placeholder="New password" onfocus="this. value='';" name="password"></div>
+                                                <div class="mb-3"><label class="form-label" for="first_name"><strong>New Password</strong></label><input class="form-control" type="password" placeholder="Enter new password" name="password"></div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="mb-3"><label class="form-label" for="first_name"><strong>Re-Enter New Password</strong></label><input class="form-control" type="password" placeholder="Re-enter new password" name="password_confirmation"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3"><label class="form-label" for="first_name"><strong>Old Password</strong></label><input class="form-control" type="password" placeholder="Enter old password" name="oldPassword"></div>
+                                            </div>
+                                            <div class="col">
                                                 @if($errors->has('password'))
                                                     <div class="alert alert-danger">
                                                         {{ $errors->first('password') }}
+                                                    </div>
+                                                @endif
+                                                @if($errors->has('oldPassword'))
+                                                    <div class="alert alert-danger">
+                                                        {{ $errors->first('oldPassword') }}
                                                     </div>
                                                 @endif
                                             </div>

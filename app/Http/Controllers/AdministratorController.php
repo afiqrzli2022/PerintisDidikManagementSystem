@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Administrator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -84,7 +85,7 @@ class AdministratorController extends Controller
             'password' => [
                 'required' => 'The password is required.',
                 'min' => 'The password must be at least 6 characters.',
-                'confirmed' => 'The password confirmation does not match.',
+                'confirmed' => 'The password and re-enter password does not match.',
             ],
             'officeNumber' => [
                 'required' => 'The office phone number is required.',
@@ -137,9 +138,18 @@ class AdministratorController extends Controller
             
             'officeNumber' => 'required|string|max:15',
         ];
-        
-        if ($request->has('password') && filled($request->password)) {
-            $rules['password'] = 'required|string|min:6';
+
+        $oldPassword = $request->input('oldPassword');
+
+        if ($request->anyFilled(['password', 'oldPassword', 'password_confirmation'])) {
+            $rules['password'] = 'required|string|min:6|confirmed';
+            $rules['oldPassword'] = ['required',
+                function ($attribute, $value, $fail) use ($oldPassword) {
+                    $user = Auth::user();
+                    if (!Hash::check($value, $user->password)) {
+                        $fail('The old password does not match.');
+                    }
+                },];
         }
 
         $errorMsg = [
@@ -151,6 +161,10 @@ class AdministratorController extends Controller
             'userEmail.email' => 'Invalid email format.',
             'officeNumber.required' => 'The office phone number is required.',
             'officeNumber.max' => 'The office phone number must not exceed 15 characters.',
+            'password.required' => 'The password is required.',
+            'password.min' => 'The password must be at least 6 characters.',
+            'password.confirmed' => 'The new password and re-enter password does not match.',
+            'oldPassword.required' => 'The old password is required.',
         ];
     
         $validator = Validator::make($request->all(), $rules, $errorMsg);

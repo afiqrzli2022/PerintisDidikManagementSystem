@@ -24,7 +24,7 @@
                                 {{ $errors->first('userName') }}
                             </div>
                         @endif
-                        <div class="mb-3"><input class="form-control" type="text" id="userID" name="userID" value="{{ old('userID') }}" placeholder="IC Number"></div>
+                        <div class="mb-3"><input class="form-control" type="text" id="userID" name="userID" value="{{ old('userID') }}" placeholder="IC Number" pattern="\d{6}-\d{2}-\d{4}" max="14" title="Please enter IC Number in the following format: 000000-00-0000"></div>
                         @if($errors->has('userID'))
                             <div class="alert alert-danger">
                                 {{ $errors->first('userID') }}
@@ -50,7 +50,7 @@
                             </div>
                         @endif
 
-                        <div class="mb-3"><h3>Gurdian Information</h3></div>
+                        <div class="mb-3"><h3>Guardian Information</h3></div>
                         <hr>
                         <div class="mb-3"><input class="form-control" type="text" id="guardianName" name="guardianName" value="{{ old('guardianName') }}" placeholder="Name"></div>
                         @if($errors->has('guardianName'))
@@ -71,8 +71,8 @@
                             </div>
                         @endif
 
-                        <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Sign up</button></div>
-                        <p>Already have an account?&nbsp;<a href='student-sign-in'>Sign In</a>&nbsp;</p>
+                        <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Sign Up</button></div>
+                        <p>Already have an account?&nbsp;<a href='student-sign-in'>Sign in</a>&nbsp;</p>
                     </form>
                 </div>
             </div>

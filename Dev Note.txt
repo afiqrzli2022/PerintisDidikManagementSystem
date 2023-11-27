@@ -3,12 +3,7 @@ use Illuminate\Support\Facades\Log;//debug
 dd();
 
 Current Working Project
-    payment method (done)
-    combine payment1 and payment2 (done)
-    view payment status (admin) (sambung sebab me dah combine two relation into one , which is truepayment)
-    update payment status for admin (done)
-    payment belum siap (done)
-    notify student (done)
+
 
 CRUCIALLLL 
     every page need to check especially list if pendingSubscription or not, else latestSubscription

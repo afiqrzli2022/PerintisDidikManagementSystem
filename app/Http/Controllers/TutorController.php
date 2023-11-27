@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;//debug
 
 class TutorController extends Controller
@@ -82,7 +83,7 @@ class TutorController extends Controller
             'password' => [
                 'required' => 'The password is required.',
                 'min' => 'The password must be at least 6 characters.',
-                'confirmed' => 'The password confirmation does not match.',
+                'confirmed' => 'The password and re-enter password does not match.',
             ],
             'workingExperience' => [
                 'required' => 'The working experience is required.',
@@ -135,8 +136,17 @@ class TutorController extends Controller
             'workingExperience' => 'required|string',
         ];
 
-        if ($request->has('password') && filled($request->password)) {
-            $rules['password'] = 'required|string|min:6';
+        $oldPassword = $request->input('oldPassword');
+
+        if ($request->anyFilled(['password', 'oldPassword', 'password_confirmation'])) {
+            $rules['password'] = 'required|string|min:6|confirmed';
+            $rules['oldPassword'] = ['required',
+                function ($attribute, $value, $fail) use ($oldPassword) {
+                    $user = Auth::user();
+                    if (!Hash::check($value, $user->password)) {
+                        $fail('The old password does not match.');
+                    }
+                },];
         }
 
         $errorMsg = [
@@ -149,6 +159,8 @@ class TutorController extends Controller
             'workingExperience.required' => 'Working experience is required.',
             'password.required' => 'The password is required.',
             'password.min' => 'The password must be at least 6 characters.',
+            'password.confirmed' => 'The new password and re-enter password does not match.',
+            'oldPassword.required' => 'The old password is required.',
         ];
     
         $validator = Validator::make($request->all(), $rules, $errorMsg);
