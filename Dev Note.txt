@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Log;//debug
 dd();
 
 Current Working Project
-
+schedule not display nicely (must fix later)
 
 CRUCIALLLL 
     every page need to check especially list if pendingSubscription or not, else latestSubscription

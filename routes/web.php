@@ -185,9 +185,7 @@ Route::middleware('auth', 'checkUserRole:Student')->group(function () { /*------
         /*-------------------------------*/
 
         /*------- student schedule page -------*/
-        Route::get('/student/schedule', function () {
-            return view('student.schedule');
-        })->name('student.schedule');
+        Route::get('/student/schedule', [SubjectController::class, 'scheduleStudent']);
         /*-------------------------------*/
 
         /*------- student payment page -------*/

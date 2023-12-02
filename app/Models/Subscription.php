@@ -61,7 +61,17 @@ class Subscription extends Model
     public function subject(): BelongsToMany
     {
         return $this->belongsToMany(Subject::class, 'subscribesubject', 'subscribeID', 'subjectID')
-                        ->as('subject');
+                        ->as('subject')
+                        ->orderByRaw("CASE 
+                        WHEN day = 'Sunday' THEN 1
+                        WHEN day = 'Monday' THEN 2
+                        WHEN day = 'Tuesday' THEN 3
+                        WHEN day = 'Wednesday' THEN 4
+                        WHEN day = 'Thursday' THEN 5
+                        WHEN day = 'Friday' THEN 6
+                        WHEN day = 'Saturday' THEN 7
+                        ELSE 8
+                    END");
     }
     
 }

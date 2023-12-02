@@ -34,18 +34,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">Mathematics</td>
-                                    <td class="text-center">Monday</td>
-                                    <td class="text-center">08:00 am - 10:00 am</td>
-                                    <td class="text-center">2 hours</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">Bahasa Melayu</td>
-                                    <td class="text-center">Tuesday</td>
-                                    <td class="text-center">02:30 pm - 03:30 pm</td>
-                                    <td class="text-center">1 hour</td>
-                                </tr>
+                                @foreach($schedule->subject as $subject)
+                                    <tr>
+                                        <td class="text-center">{{$subject->subjectName}}</td>
+                                        <td class="text-center">{{$subject->day}}</td>
+                                        <td class="text-center">{{$subject->time}}</td>
+                                        <td class="text-center">{{$subject->duration}}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr></tr>

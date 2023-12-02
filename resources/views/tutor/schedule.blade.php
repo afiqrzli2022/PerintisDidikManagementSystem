@@ -28,33 +28,23 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Subject Name</th>
+                                    <th class="text-center">Education Level</th>
                                     <th class="text-center">Day</th>
                                     <th class="text-center">Time</th>
                                     <th class="text-center">Duration</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">ISP551</td>
-                                    <td class="text-center">Monday</td>
-                                    <td class="text-center">08:00 am - 10:00 am</td>
-                                    <td class="text-center">2 hours</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">ISP551</td>
-                                    <td class="text-center">Tuesday</td>
-                                    <td class="text-center">02:30 pm - 03:30 pm</td>
-                                    <td class="text-center">1 hour</td>
-                                </tr>
+                                @foreach(Auth::user()->tutor->subject as $subject)
+                                    <tr>
+                                        <td class="text-center">{{$subject->subjectName}}</td>
+                                        <td class="text-center">{{$subject->educationLevel->eduName}}</td>
+                                        <td class="text-center">{{$subject->day}}</td>
+                                        <td class="text-center">{{$subject->time}}</td>
+                                        <td class="text-center">{{$subject->duration}}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-center"><strong>Subject Name</strong></td>
-                                    <td class="text-center"><strong>Day</strong></td>
-                                    <td class="text-center"><strong>Time</strong></td>
-                                    <td class="text-center"><strong>Duration</strong></td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

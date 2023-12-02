@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\EducationLevel;
+use App\Models\Subscription;
 use App\Models\Tutor;
 use Illuminate\Database\QueryException;
 
@@ -47,6 +49,15 @@ class SubjectController extends Controller
         return redirect()->route('listsubject')->with('success', 'Subject created successfully!');
     }
 
+    public function scheduleStudent(){
+        $schedule = Subscription::find(Auth::user()->student->latestSubs)->first();
+        return view('student.schedule', compact('schedule'));
+    }
+
+    public function scheduleTutor(){
+        $schedule = Subscription::find(Auth::user()->student->latestSubs)->first();
+        return view('student.schedule', compact('schedule'));
+    }
 
     public function update(Request $request, $subjectID)
     {
