@@ -32,9 +32,9 @@
             @if ($studentDetail->latestSubs->pendingPayment)
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <form method="post">
+                    <form method="post"  onsubmit="return confirm('{{$studentDetail->user->userName}} payment status will turn to Paid');">
                         @csrf
-                        <button class="btn btn-primary " role="submit">Turn to Paid</a>
+                        <button class="btn btn-primary " role="submit">Turn to Paid</button>
                     </form>
                 </div>
             </div>
@@ -54,8 +54,40 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="email"><strong>Identity Card</strong></label>
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>IC Number</strong></label>
                                                 <p style="color: rgb(78,93,120);">{{ $studentDetail -> userID}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="username"><strong>Phone Number</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{ $studentDetail -> user -> userNumber}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{ $studentDetail -> user -> userEmail}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="username"><strong>Guardian Name</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{ $studentDetail -> guardianName}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Guardian Phone Number</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{ $studentDetail -> guardianNumber}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="username"><strong>Address</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{ $studentDetail -> studentAddress}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -91,6 +123,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if ($studentDetail -> latestSubs)
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="username"><strong>Subscription Date</strong></label>
+                                                <p style="color: rgb(78,93,120);">
+                                                    {{$studentDetail -> latestSubs -> subscribeDate}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="email"><strong>Payment status</strong></label>
@@ -133,6 +176,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+                                    @endif
                             </div>
                         </div>
                     </div>
