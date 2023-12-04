@@ -60,7 +60,7 @@
                                         <td style="text-align: center;">{{ $student->user->userName }}</td>
                                         @if($student->latestSubs)
                                             <td style="text-align: center;">{{ $student->latestSubs->package->packageName }}</td>
-                                            <td style="text-align: center;">{{ $student->latestSubs->package->educationLevel }}</td>
+                                            <td style="text-align: center;">{{ $student->latestSubs->package->educationLevel->eduName }}</td>
                                             @if ($student->latestSubs->pendingPayment)
                                                 <td style="text-align: center;"></td>
                                                 <td style="text-align: center;">{{ $student->latestSubs->pendingPayment->paymentPrice}}</td>
@@ -70,7 +70,7 @@
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentDate ? \Carbon\Carbon::parse($student->latestSubs->latestPayment->paymentDate)->format('d/m/y') : '' }}</td> 
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentPrice}}</td>
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentStatus }}</td>
-                                                <td style="text-align: center;"><button class="btn btn-primary" id="detail-btn" type="button" style="margin-right: 10px;" opacity='0'><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
+                                                <td style="text-align: center;"><button class="btn btn-primary" id="detail-btn" type="button" style="margin-right: 10px;" style="opacity: 0"><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
                                             @endif
                                         @else
                                             <td style="text-align: center;">Not yet subscribe</td>
