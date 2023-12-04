@@ -93,14 +93,43 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="first_name"><strong>Price</strong></label>
-                                                <p style="color: rgb(78,93,120);">RM
-                                                    @if ($studentDetail -> latestSubs)
-                                                        {{$studentDetail -> latestSubs -> package -> packagePrice}} 
-                                                    @else
-                                                        0.00
-                                                    @endif    
-                                                </p>
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Payment status</strong></label>
+                                                @if(studentDetail -> latestSubs -> onePayment -> paymentStatus == 'Paid')
+                                                <p style="color: rgb(5,200,25);"><strong>Paid</strong></p>
+                                                @elseif(Auth::user() -> student -> latestSubs -> onePayment -> paymentStatus == 'Pending')
+                                                <p style="color: rgb(255,116,23);"><strong>Pending</strong></p>
+                                                @elseif(Auth::user() -> student -> latestSubs -> onePayment -> paymentStatus == 'Failed')
+                                                <p style="color: rgb(241,30,30);"><strong>Failed</strong></p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Total Price</strong></label>
+                                                <p style="color: rgb(78,93,120);font-weight: bold;">RM {{Auth::user() -> student -> latestSubs -> onePayment -> paymentPrice}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if(Auth::user() -> student -> latestSubs -> onePayment -> paymentStatus !== 'Pending')
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Payment Date</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{\Carbon\Carbon::parse(Auth::user() -> student -> latestSubs -> onePayment -> paymentDate )->format('d/m/y')}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Payment Amount</strong></label>
+                                                @if(Auth::user() -> student -> latestSubs -> onePayment -> paymentStatus == 'Paid')
+                                                <p style="color: rgb(78,93,120);">RM {{Auth::user() -> student -> latestSubs -> onePayment -> paymentAmount}}</p>
+                                                @elseif(Auth::user() -> student -> latestSubs -> onePayment -> paymentStatus == 'Failed')
+                                                <p style="color: rgb(78,93,120);">RM 0</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Payment Method</strong></label>
+                                                <p style="color: rgb(78,93,120);">{{Auth::user() -> student -> latestSubs -> onePayment -> paymentMethod}}</p>
                                             </div>
                                         </div>
                                     </div>
