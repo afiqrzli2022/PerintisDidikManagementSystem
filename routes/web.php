@@ -103,8 +103,8 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
 
     /*------- Manage-payment page -------*/
     Route::get('/admin/manage-payment', [PaymentController::class, 'adminView'])->name('admin.manage-payment');
-    Route::post('/admin/manage-payment', [PaymentController::class, 'adminUpdatePayment'])->name('admin.update-payment');
-    Route::get('/admin/manage-payment/{studentID}', [PaymentController::class, 'adminViewDetail'])->name('admin.manage-payment-detail');
+    Route::get('/admin/manage-payment/{studentID}', [PaymentController::class, 'adminViewDetail'])->name('admin.manage-payment-details');
+    Route::post('/admin/manage-payment/{studentID}', [PaymentController::class, 'adminUpdatePayment'])->name('admin.update-payment');
     /*-------------------------------*/
 
     /* ---------notify student -----------*/
@@ -153,7 +153,6 @@ Route::middleware('auth', 'checkUserRole:Administrator')->group(function () { /*
 
     /*------- subscription page -------*/
     Route::get('/admin/subscription', [SubscriptionController::class, 'adminView'])->name('admin.subscription');
-    Route::get('/admin/subscription/{studentID}', [SubscriptionController::class, 'adminViewDetail'])->name('admin.subscription-details');
     /*-------------------------------*/
 
 });

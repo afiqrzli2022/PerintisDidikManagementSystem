@@ -30,7 +30,7 @@ class PaymentController extends Controller
 
     }
     
-    public function adminViewDetail($studentID){
+    public function adminViewDetails($studentID){
         $studentDetail = User::with(
             'student.latestSubs.onePayment',
             'student.latestSubs.package',
@@ -39,9 +39,15 @@ class PaymentController extends Controller
         return response()->json($studentDetail);
     }
 
+    public function adminViewDetail(Request $request){
+        $studentDetail = Student::find($request->route('studentID'));
+        return view('admin.manage-payment-details', compact('studentDetail'));
+    }
+
     public function adminUpdatePayment(Request $request){
         if($request->input('paymentStatus') !== 'Pending'){
-            $payment = Payment::find($request->input('paymentID'));
+            $student = Student::find($request->route('studentID'));
+            $payment = Payment::find($student->latestSubs->pendingPayment)->first();
             $subscribe = Subscription::find($payment->subscribeID);
 
             $payment -> paymentStatus = 'Paid';
@@ -63,7 +69,7 @@ class PaymentController extends Controller
         $result = Payment::charge($request);
 
         if(is_array($result) && array_key_exists('error', $result)){
-            return redirect()->back()->with('error', $result['error']);
+            return redirect()->route('student.payment')->with('error', $result['error']);
         } else {
             return redirect()->route('student.payment')->with('success', "Payment Success");
         }

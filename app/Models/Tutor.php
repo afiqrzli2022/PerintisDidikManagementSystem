@@ -32,6 +32,17 @@ class Tutor extends Model
     
     public function subject():HasMany
     {
-        return $this->hasMany(Subject::class, 'tutorID','userID');
+        return $this->hasMany(Subject::class, 'tutorID','userID')
+                    ->orderByRaw("CASE 
+                        WHEN day = 'Sunday' THEN 1
+                        WHEN day = 'Monday' THEN 2
+                        WHEN day = 'Tuesday' THEN 3
+                        WHEN day = 'Wednesday' THEN 4
+                        WHEN day = 'Thursday' THEN 5
+                        WHEN day = 'Friday' THEN 6
+                        WHEN day = 'Saturday' THEN 7
+                        ELSE 8
+                    END")
+                    ->orderBy('time');
     }
 }

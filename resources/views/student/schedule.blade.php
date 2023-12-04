@@ -38,8 +38,22 @@
                                     <tr>
                                         <td class="text-center">{{$subject->subjectName}}</td>
                                         <td class="text-center">{{$subject->day}}</td>
-                                        <td class="text-center">{{$subject->time}}</td>
-                                        <td class="text-center">{{$subject->duration}}</td>
+                                        <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($subject->time)->format('h:i a') }} - 
+                                            {{ \Carbon\Carbon::parse($subject->time)
+                                                    ->addHours(intval(explode(':', $subject->duration)[0]))
+                                                    ->addMinutes(intval(explode(':', $subject->duration)[1]))
+                                                    ->format('h:i a') }}
+                                        </td>
+                                        @php
+                                            $duration = $subject->duration;
+                                            $hours = substr($duration, 0, 2); // Extract hours
+                                            $minutes = substr($duration, 3, 2); // Extract minutes
+                                            $carbonInterval = \Carbon\CarbonInterval::hours($hours)->minutes($minutes)->forHumans();
+                                        @endphp
+                                        <td class="text-center">
+                                            {{ $carbonInterval }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

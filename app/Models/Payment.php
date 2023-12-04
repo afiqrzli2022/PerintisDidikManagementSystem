@@ -28,6 +28,11 @@ class Payment extends Model
         return $this->belongsTo(Subscription::class, 'subscribeID', 'subscribeID');
     }
 
+    public function Package(): BelongsTo
+    {
+        return $this->belongsTo(Package::class, 'packageID', 'packageID');
+    }
+
     public static function charge(Request $request)
     {
         // Set your Stripe API secret key
@@ -81,6 +86,28 @@ class Payment extends Model
               
         } catch (\Exception $e) {
             // Handle any errors that occurred during the charge process
+            if($e->getError()->charge){
+                $oldPayment = Payment::find(Auth::User() -> student -> latestSubs -> pendingPayment -> paymentID);
+    
+                $payment = new Payment();
+            
+                $payment -> paymentID = uniqid();
+                $payment -> paymentStatus = 'Pending';
+                $payment -> paymentPrice = $oldPayment->paymentPrice;
+                $payment -> subscribeID = $oldPayment->subscribeID;
+                $payment -> packageID = $oldPayment->packageID;
+                
+                $oldPayment -> paymentID = $e->getError()->charge;
+                $oldPayment -> paymentStatus = 'Failed';
+                $oldPayment -> paymentAmount = 0;
+                $oldPayment -> paymentDate = Carbon::today();
+                $oldPayment -> paymentTime = Carbon::now();
+                $oldPayment -> paymentMethod = 'Online Payment';
+                
+                $payment->save();
+                $oldPayment->save();
+            }
+
             return ['error' => $e->getMessage()];
         }
     }

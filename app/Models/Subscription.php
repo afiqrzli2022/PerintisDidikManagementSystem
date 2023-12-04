@@ -38,9 +38,10 @@ class Subscription extends Model
     
     public function onePayment(): HasOne
     {
-        $pendingPayment = $this->payment()->one()->where('paymentStatus', 'Pending');
+        $pendingPayment = $this->payment()->one()->where('paymentStatus', 'Pending') -> first();
 
         if ($pendingPayment !== null) {
+            $pendingPayment = $this->payment()->one()->where('paymentStatus', 'Pending');
             return $pendingPayment;
         }
         
@@ -71,7 +72,8 @@ class Subscription extends Model
                         WHEN day = 'Friday' THEN 6
                         WHEN day = 'Saturday' THEN 7
                         ELSE 8
-                    END");
+                    END")
+                    ->orderBy('time');
     }
     
 }
