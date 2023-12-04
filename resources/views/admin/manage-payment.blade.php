@@ -46,6 +46,7 @@
                                     <th style="text-align: center;">No</th>
                                     <th style="text-align: center;">Student Name</th>
                                     <th style="text-align: center;">Package</th>
+                                    <th style="text-align: center;">Education Level</th>
                                     <th style="text-align: center;">Payment Date</th>
                                     <th style="text-align: center;">Subscription Fee</th>
                                     <th style="text-align: center;">Payment Status</th>
@@ -59,6 +60,7 @@
                                         <td style="text-align: center;">{{ $student->user->userName }}</td>
                                         @if($student->latestSubs)
                                             <td style="text-align: center;">{{ $student->latestSubs->package->packageName }}</td>
+                                            <td style="text-align: center;">{{ $student->latestSubs->package->educationLevel }}</td>
                                             @if ($student->latestSubs->pendingPayment)
                                                 <td style="text-align: center;"></td>
                                                 <td style="text-align: center;">{{ $student->latestSubs->pendingPayment->paymentPrice}}</td>
@@ -68,6 +70,7 @@
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentDate ? \Carbon\Carbon::parse($student->latestSubs->latestPayment->paymentDate)->format('d/m/y') : '' }}</td> 
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentPrice}}</td>
                                                 <td style="text-align: center;">{{ $student->latestSubs->latestPayment->paymentStatus }}</td>
+                                                <td style="text-align: center;"><button class="btn btn-primary" id="detail-btn" type="button" style="margin-right: 10px;" opacity='0'><i class="fas fa-edit" style="color: rgb(255,255,255);"></i>&nbsp;Edit<span class="text-white-50 icon"></span></button></td>
                                             @endif
                                         @else
                                             <td style="text-align: center;">Not yet subscribe</td>
