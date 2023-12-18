@@ -27,7 +27,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-xl-12 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" name="card-number"></div>
+                                                <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" placeholder="Card Number" name="card-number" pattern="\d+" required></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -36,16 +36,16 @@
                                                     <label class="form-label" for="expiration-date"><strong>Expiration Date</strong></label>
                                                     <div class="row">
                                                         <div class="col-md-6">  
-                                                            <input class="form-control mb-2" type="text" id="mm" name="mm">
+                                                            <input class="form-control mb-2" type="text" placeholder="MM" id="mm" name="mm" pattern="\d{2}" title="Month format example (MM): 09" required>
                                                         </div>
                                                         <div class="col-md-6">  
-                                                            <input class="form-control" type="text" id="yy" name="yy">
+                                                            <input class="form-control" type="text" placeholder="YY" id="yy" name="yy" pattern="\d{2}" title="Year format example (YY): 34" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="cvc"><strong>CVC</strong></label><input class="form-control" type="text" id="cvc" name="cvc"></div>
+                                                <div class="mb-3"><label class="form-label" for="cvc"><strong>CVC</strong></label><input class="form-control" type="text" id="cvc" placeholder="CVC" name="cvc" pattern="\d{3}" title="Please enter CVC with right format" required></div>
                                             </div>
                                         </div>
                                         <div class="text-center"><img class="img-fluid m-3" src="{{ asset('img/illustrations/master-card.png') }}" style="width: 60px;"><img class="img-fluid m-3" src="{{ asset('img/illustrations/visa.png') }}" style="width: 60px;"></div>
