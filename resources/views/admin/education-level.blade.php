@@ -22,7 +22,7 @@
                     <p class="text-primary m-0 fw-bold">Education level list</p>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row"  style="display:none">
                         <div class="col-md-6 text-nowrap">
                             <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
                                         <option value="10" selected="">10</option>
@@ -65,7 +65,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
+                    <div class="row"  style="display:none">
                         <div class="col-md-6 align-self-center">
                             <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 3 of 3</p>
                         </div>

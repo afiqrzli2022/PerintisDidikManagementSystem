@@ -15,8 +15,8 @@
                 </div>
             </div>
             <div class="card shadow">
-                <div class="card-header py-3">
-                    <div class="row">
+                <div class="card-header py-3" style="display: none">
+                    <div class="row" style="display: none">
                         <div class="col-md-6 col-xxl-5 text-nowrap">
                             <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></div>
                         </div>

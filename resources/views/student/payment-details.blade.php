@@ -27,6 +27,11 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-xl-12 offset-xl-0">
+                                                <div class="mb-3"><label class="form-label" for="card-holder"><strong>Cardholder Name</strong></label><input class="form-control" type="text" id="card-holder" placeholder="Cardholder Name" name="card-name" required></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-12 offset-xl-0">
                                                 <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" placeholder="Card Number" name="card-number" pattern="\d+" required></div>
                                             </div>
                                         </div>
