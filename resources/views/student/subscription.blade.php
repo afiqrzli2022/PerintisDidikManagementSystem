@@ -38,63 +38,68 @@
                     </div>
                 </div>
                 <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
+                    @php $hasPackages = false; @endphp
                     @foreach ($educationLevel as $edu)
-                    @if(count($edu->package) >0)
-                    @foreach ($edu->package as $package) 
-                    <div class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" data-package-id="{{ $package->packageID }}" style="display: none;">
-                        <div class="card border-warning border-2 h-100">
-                            <div class="card-body d-flex flex-column justify-content-between p-4">
-                                <div>
-                                    <h6 class="fw-bold text-center text-muted">
-                                        {{ $package->packageName }}
+                    @if(count($edu->package) > 0)
+                        @php $hasPackages = true; @endphp
+                        @foreach ($edu->package as $package) 
+                        <div class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" data-package-id="{{ $package->packageID }}" style="display: none;">
+                            <div class="card border-warning border-2 h-100">
+                                <div class="card-body d-flex flex-column justify-content-between p-4">
+                                    <div>
+                                        <h6 class="fw-bold text-center text-muted">
+                                            {{ $package->packageName }}
+                                            @if (Auth::user()->student->latestSubs && Auth::user()->student->latestSubs->package)
+                                                @if ($package->packageID == Auth::user()->student->latestSubs->package->packageID)
+                                                    (Selected)
+                                                @endif
+                                            @endif
+                                        </h6>
+                                        <h4 class="display-5 fw-bold text-center mb-4">RM {{ $package->packagePrice }}</h4>
+                                        <ul class="list-unstyled">
+                                            <li class="d-flex mb-2">
+                                                <span class="bs-icon-xs bs-icon-rounded bs-icon me-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-check fs-5 text-primary">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M5 12l5 5l10 -10"></path>
+                                                    </svg>
+                                                </span>
+                                                <span>Education Level : {{ $edu->eduName }}</span>
+                                            </li>
+                                            <li class="d-flex mb-2">
+                                                <span class="bs-icon-xs bs-icon-rounded bs-icon me-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-check fs-5 text-primary">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M5 12l5 5l10 -10"></path>
+                                                    </svg>
+                                                </span>
+                                                <span>Subject Quantity: {{ $package->subjectQuantity }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="btn btn-warning package-button" role="button" href="#" data-bs-target="#subscription-subject" data-bs-toggle="modal">
                                         @if (Auth::user()->student->latestSubs && Auth::user()->student->latestSubs->package)
                                             @if ($package->packageID == Auth::user()->student->latestSubs->package->packageID)
-                                                (Selected)
+                                                Change Subject
+                                            @else
+                                                Select
                                             @endif
-                                        @endif
-                                    </h6>
-                                    <h4 class="display-5 fw-bold text-center mb-4">RM {{ $package->packagePrice }}</h4>
-                                    <ul class="list-unstyled">
-                                        <li class="d-flex mb-2">
-                                            <span class="bs-icon-xs bs-icon-rounded bs-icon me-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-check fs-5 text-primary">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M5 12l5 5l10 -10"></path>
-                                                </svg>
-                                            </span>
-                                            <span>Education Level : {{ $edu->eduName }}</span>
-                                        </li>
-                                        <li class="d-flex mb-2">
-                                            <span class="bs-icon-xs bs-icon-rounded bs-icon me-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-check fs-5 text-primary">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M5 12l5 5l10 -10"></path>
-                                                </svg>
-                                            </span>
-                                            <span>Subject Quantity: {{ $package->subjectQuantity }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <a class="btn btn-warning package-button" role="button" href="#" data-bs-target="#subscription-subject" data-bs-toggle="modal">
-                                    @if (Auth::user()->student->latestSubs && Auth::user()->student->latestSubs->package)
-                                        @if ($package->packageID == Auth::user()->student->latestSubs->package->packageID)
-                                            Change Subject
                                         @else
                                             Select
                                         @endif
-                                    @else
-                                        Select
-                                    @endif
-                                </a>
-                                <input type="hidden" name="packageID" value="{{ $package->packageID }}">
+                                    </a>
+                                    <input type="hidden" name="packageID" value="{{ $package->packageID }}">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
-                    @else
-                    <a>No package available</a>
+                        @endforeach
                     @endif
                     @endforeach
+                    @if (!$hasPackages)
+                        <div class="col">
+                            <a>No package available</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </section>
