@@ -39,8 +39,8 @@
                 </div>
                 <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
                     @foreach ($educationLevel as $edu)
-                    @if($loop->first && count($edu->package) > 0)
-                        @foreach ($edu->package as $package) 
+                    @if($edu->hasPackage())
+                        @foreach ($edu->package as $package)
                         <div class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" data-package-id="{{ $package->packageID }}" style="display: none;">
                             <div class="card border-warning border-2 h-100">
                                 <div class="card-body d-flex flex-column justify-content-between p-4">
@@ -92,7 +92,7 @@
                         </div>
                         @endforeach
                     @else
-                    <a>No package available</a>
+                    <a class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" data-package-id="{{ $package->packageID }}" style="display: none;">No package available</a>
                     @endif
                     @endforeach
                 </div>

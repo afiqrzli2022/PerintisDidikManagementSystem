@@ -25,6 +25,11 @@ class EducationLevel extends Model
 
     public function Package()
     {
-        return $this->hasMany(Package::class, 'eduID')->orderBy('packagePrice', 'asc');;
+        return $this->hasMany(Package::class, 'eduID')->orderBy('packagePrice', 'asc');
+    }
+
+    public function hasPackage()
+    {
+        return $this->Package()->exists();
     }
 }
