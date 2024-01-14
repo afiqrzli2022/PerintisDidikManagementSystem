@@ -17,6 +17,41 @@
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto"><button class="btn btn-primary" type="button" data-bs-target="#add-subject" data-bs-toggle="modal"><i class="fas fa-plus" style="color: rgb(255,255,255);"></i>&nbsp;Add<span class="text-white-50 icon"></span></button></div>
             </div>
+            @if($errors->has('subjectID'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('subjectID') }}
+                </div>
+            @endif
+            @if($errors->has('subjectName'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('subjectName') }}
+                </div>
+            @endif
+            @if($errors->has('time'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('time') }}
+                </div>
+            @endif
+            @if($errors->has('day'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('day') }}
+                </div>
+            @endif
+            @if($errors->has('duration'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('duration') }}
+                </div>
+            @endif
+            @if($errors->has('eduID'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('eduID') }}
+                </div>
+            @endif
+            @if($errors->has('tutorID'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('tutorID') }}
+                </div>
+            @endif
             <div class="card shadow">
                 <div class="card-header py-3">
                     <p class="text-primary m-0 fw-bold">Subject list</p>
@@ -44,7 +79,6 @@
                                     <th style="text-align: center;">Subject Name</th>
                                     <th style="text-align: center;">Time</th>
                                     <th style="text-align: center;">Day</th>
-                                    <th style="text-align: center;">Duration</th>
                                     <th style="text-align: center;">Education Level</th>
                                     <th style="text-align: center;">Tutor</th>
                                     <th></th>
@@ -56,9 +90,12 @@
                                         <td style="text-align: center;">{{ $loop->iteration }}</td>
                                         <td style="text-align: center;">{{ $subject->subjectID }}</td>
                                         <td style="text-align: center;">{{ $subject->subjectName }}</td>
-                                        <td style="text-align: center;">{{ $subject->time }}</td>
+                                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($subject->time)->format('h:i a') }} - 
+                                            {{ \Carbon\Carbon::parse($subject->time)
+                                                    ->addHours(intval(explode(':', $subject->duration)[0]))
+                                                    ->addMinutes(intval(explode(':', $subject->duration)[1]))
+                                                    ->format('h:i a') }}</td>
                                         <td style="text-align: center;">{{ $subject->day }}</td>
-                                        <td style="text-align: center;">{{ $subject->duration }}</td>
                                         <td style="text-align: center;">{{ $subject->educationLevel->eduID }}</td>
                                         <td style="text-align: center;">{{ $subject->tutor->user->userName }}</td>
                                         <td style="text-align: center;">

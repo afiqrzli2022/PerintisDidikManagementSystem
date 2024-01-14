@@ -26,15 +26,41 @@ class SubjectController extends Controller
 
     public function create(Request $request)
     {
-        $request->validate([
+        $rules = [
             'subjectID' => 'required|string|max:10|unique:subject,subjectID', // Check for unique subjectID
             'subjectName' => 'required|string|max:45',
             'time' => 'required',
             'day' => 'required|string|max:10',
-            'duration' => 'required|string|max:20',
+            'duration' => 'required|string',
             'eduID' => 'required|exists:educationlevel,eduID',
             'tutorID' => 'required|exists:tutor,userID',
-        ]);
+        ];
+
+        $errorMsg = [
+            'subjectID.required' => 'The Subject ID field is required.',
+            'subjectID.string' => 'The Subject ID must be a string.',
+            'subjectID.max' => 'The Subject ID must not be greater than :10.',
+            'subjectID.unique' => 'The Subject ID has already been taken.',
+            'subjectName.required' => 'The Subject Name field is required.',
+            'subjectName.string' => 'The Subject Name must be a string.',
+            'subjectName.max' => 'The Subject Name must not be greater than :45.',
+            'time.required' => 'The Time field is required.',
+            'day.required' => 'The Day field is required.',
+            'day.string' => 'The Day must be a string.',
+            'day.max' => 'The Day must not be greater than :10.',
+            'duration.required' => 'The Duration field is required.',
+            'duration.string' => 'The Duration must be a string.',
+            'eduID.required' => 'The Education Level ID field is required.',
+            'eduID.exists' => 'The selected Education Level ID is invalid.',
+            'tutorID.required' => 'The Tutor ID field is required.',
+            'tutorID.exists' => 'The selected Tutor ID is invalid.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $errorMsg);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $subject = Subject::create([
             'subjectID' => $request->input('subjectID'),
@@ -67,7 +93,7 @@ class SubjectController extends Controller
             return redirect()->back()->with('error', 'Subject not found.');
         }
 
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'subjectID' => 'required|string|max:100|unique:subject,subjectID,' . $subjectID . ',subjectID', // Include unique validation, ignoring the current subject ID
             'subjectName' => 'required|string|max:100',
             'time' => 'required',
@@ -75,10 +101,32 @@ class SubjectController extends Controller
             'duration' => 'required|string|max:20',
             'eduID' => 'required|exists:educationlevel,eduID',
             'tutorID' => 'required|exists:tutor,userID',
-        ]);
+        ];
+
+        $errorMsg = [
+            'subjectID.required' => 'The Subject ID field is required.',
+            'subjectID.string' => 'The Subject ID must be a string.',
+            'subjectID.max' => 'The Subject ID must not be greater than :10.',
+            'subjectID.unique' => 'The Subject ID has already been taken.',
+            'subjectName.required' => 'The Subject Name field is required.',
+            'subjectName.string' => 'The Subject Name must be a string.',
+            'subjectName.max' => 'The Subject Name must not be greater than :45.',
+            'time.required' => 'The Time field is required.',
+            'day.required' => 'The Day field is required.',
+            'day.string' => 'The Day must be a string.',
+            'day.max' => 'The Day must not be greater than :10.',
+            'duration.required' => 'The Duration field is required.',
+            'duration.string' => 'The Duration must be a string.',
+            'eduID.required' => 'The Education Level ID field is required.',
+            'eduID.exists' => 'The selected Education Level ID is invalid.',
+            'tutorID.required' => 'The Tutor ID field is required.',
+            'tutorID.exists' => 'The selected Tutor ID is invalid.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $errorMsg);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
         }
 
         $subj->update($request->all());

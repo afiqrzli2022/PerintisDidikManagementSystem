@@ -17,6 +17,16 @@
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto"><button class="btn btn-primary" type="button" data-bs-target="#add-education-level" data-bs-toggle="modal"><i class="fas fa-plus" style="color: rgb(255,255,255);"></i>&nbsp;Add<span class="text-white-50 icon"></span></button></div>
             </div>
+            @if($errors->has('eduID'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('eduID') }}
+                </div>
+            @endif
+            @if($errors->has('eduName'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('eduName') }}
+                </div>
+            @endif
             <div class="card shadow">
                 <div class="card-header py-3">
                     <p class="text-primary m-0 fw-bold">Education level list</p>
@@ -98,13 +108,13 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="educationlevel-id"><strong>Education Level ID</strong></label>
-                                <input class="form-control" type="text" id="educationlevel-id" name="eduID"></div>
+                                <input class="form-control" type="text" id="educationlevel-id" name="eduID" placeholder="ID for education level (Ex: PT3)" required></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3"><label class="form-label" id="educationlevel-name"><strong>Education Level Name</strong></label>
-                                <input class="form-control" type="text" id="educationlevel-name" name="eduName"></div>
+                                <input class="form-control" type="text" id="educationlevel-name" name="eduName" placeholder="Name for education level (Ex: Penilaian Tingkatan 3)" required></div>
                             </div>
                         </div>
                         <div class="row">

@@ -31,6 +31,7 @@
                                     <th class="text-center">Day</th>
                                     <th class="text-center">Time</th>
                                     <th class="text-center">Duration</th>
+                                    <th class="text-center">Tutor Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,10 +51,11 @@
                                             $hours = substr($duration, 0, 2); // Extract hours
                                             $minutes = substr($duration, 3, 2); // Extract minutes
                                             $carbonInterval = \Carbon\CarbonInterval::hours($hours)->minutes($minutes)->forHumans();
-                                        @endphp
+                                            @endphp
                                         <td class="text-center">
                                             {{ $carbonInterval }}
                                         </td>
+                                        <td class="text-center">{{$subject->tutor->user->userName}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -38,6 +38,7 @@ class EducationLevelController extends Controller
         $validator = Validator::make($request->all(), $rules, $errorMsg);
     
         if ($validator->fails()) {
+            $request->flash();
             return back()->withErrors($validator)->withInput();
         }
         
@@ -51,7 +52,9 @@ class EducationLevelController extends Controller
         $edulevel->save();
 
         // Redirect to the 'listedu' route after successful creation
-        return redirect()->route('listedulevel')->with('success', 'Education Level created successfully!');
+        session()->flash('success', 'Education Level created successfully!');
+
+        return redirect()->route('listedulevel');
     }
 
     //update function
@@ -92,7 +95,7 @@ class EducationLevelController extends Controller
     }
 
     // Delete function
-    public function destroys($eduID) {
+    public function destroy($eduID) {
         // Find the education level by its ID
         $educationLevel = EducationLevel::find($eduID);
 
@@ -105,27 +108,6 @@ class EducationLevelController extends Controller
 
         // Redirect to the 'listedulevel' route after successful deletion
         return redirect()->route('listedulevel')->with('success', 'Education level deleted successfully!');
-    }
-
-    public function destroy($eduID)
-    {
-        $educationLevel = EducationLevel::find($eduID);
-    
-        if (!$educationLevel) {
-            return redirect()->back()->with('error', 'Education level not found.');
-        }
-       
-        try {
-
-            $educationLevel->delete();
-
-            return redirect()->route('listedulevel')->with('success', 'Education level deleted successfully!');
-        
-        } catch (QueryException $e) {
-
-            return redirect()->back()->with('error', 'Deletion Failed: The education level has the subject in it.');
-            
-        }
     }
 
 }

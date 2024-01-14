@@ -17,6 +17,26 @@
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto"><button class="btn btn-primary" type="button" data-bs-target="#add-package" data-bs-toggle="modal"><i class="fas fa-plus" style="color: rgb(255,255,255);"></i>&nbsp;Add<span class="text-white-50 icon"></span></button></div>
             </div>
+            @if($errors->has('packageID'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('packageID') }}
+                </div>
+            @endif
+            @if($errors->has('packageName'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('packageName') }}
+                </div>
+            @endif
+            @if($errors->has('subjectQuantity'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('subjectQuantity') }}
+                </div>
+            @endif
+            @if($errors->has('packagePrice'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('packagePrice') }}
+                </div>
+            @endif
             <div class="card shadow">
                 <div class="card-header py-3">
                     <p class="text-primary m-0 fw-bold">Package list</p>
@@ -105,13 +125,13 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" id="package-name-1" for="packageID"><strong>Package ID</strong></label>
-                                    <input class="form-control" type="text" id="package-name" name="packageID">
+                                    <input class="form-control" type="text" id="package-name" name="packageID"  placeholder="Ex: SPM01">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" id="package-name" for="username"><strong>Package Name</strong></label>
-                                    <input class="form-control" type="text" id="package-name" name="packageName">
+                                    <input class="form-control" type="text" id="package-name" name="packageName"  placeholder="Ex: Pakej 2  ">
                                 </div>
                             </div>
                             <div class="col">
@@ -125,7 +145,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="first_name"><strong>Price (RM)</strong></label>
-                                    <input class="form-control" type="text" id="package-name" name="packagePrice">
+                                    <input class="form-control" type="text" id="package-name" name="packagePrice"  placeholder="Ex: 90">
                                 </div>
                             </div>
                             <div class="col">

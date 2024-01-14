@@ -39,6 +39,7 @@
                 </div>
                 <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
                     @foreach ($educationLevel as $edu)
+                    @if(count($edu->package) >0)
                     @foreach ($edu->package as $package) 
                     <div class="col package-card" data-edu-id="{{ $edu->eduID }}" data-subject-quantity="{{ $package->subjectQuantity }}" data-package-id="{{ $package->packageID }}" style="display: none;">
                         <div class="card border-warning border-2 h-100">
@@ -90,6 +91,9 @@
                         </div>
                     </div>
                     @endforeach
+                    @else
+                    <a>No package available</a>
+                    @endif
                     @endforeach
                 </div>
             </div>

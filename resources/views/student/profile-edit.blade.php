@@ -158,15 +158,6 @@
             </div>
         </div>
     </section>
-    <script>
-        function disableBackButton() {
-            // Disable the back button
-            window.history.pushState(null, null, window.location.href);
-            window.onpopstate = function () {
-                window.history.go(1);
-            };
-        }
-    </script>
 
     @include('frame.footer')
 
