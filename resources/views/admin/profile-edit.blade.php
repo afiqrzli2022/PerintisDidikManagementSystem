@@ -26,7 +26,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col">
-                                                <div class="mb-3"><label class="form-label" for="username"><strong>Full Name</strong></label><input class="form-control" type="text" id="name-tutor" value="{{ Auth::user()->userName }}" name="userName"></div>
+                                                <div class="mb-3"><label class="form-label" for="username"><strong>Full Name</strong></label><input class="form-control" type="text" id="name-tutor" value="{{ Auth::user()->userName }}" name="userName" pattern="^[a-zA-Z ']+$" title="Allowed format is alphabet and single quote only"></div>
                                                 @if($errors->has('userName'))
                                                     <div class="alert alert-danger">
                                                         {{ $errors->first('userName') }}
@@ -100,7 +100,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" form="updateForm">Update</button></div>
+                                        <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" form="updateForm" onclick="disableBackButton()">Update</button></div>
                                     </form>
                                 </div>
                             </div>
@@ -110,6 +110,15 @@
             </div>
         </div>
     </section>
+    <script>
+        function disableBackButton() {
+            // Disable the back button
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                window.history.go(1);
+            };
+        }
+    </script>
 
     @include('frame.footer')
 

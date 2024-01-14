@@ -27,7 +27,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-xl-12 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="card-holder"><strong>Cardholder Name</strong></label><input class="form-control" type="text" id="card-holder" placeholder="Cardholder Name" name="card-name" required></div>
+                                                <div class="mb-3"><label class="form-label" for="card-holder"><strong>Cardholder Name</strong></label><input class="form-control" type="text" id="card-holder" placeholder="Cardholder Name" name="card-name" pattern="^[a-zA-Z ']+$" title="Allowed format is alphabet and single quote only" required></div>
                                             </div>
                                         </div>
                                         <div class="row">

@@ -11,7 +11,7 @@ function handleEditButtonClickPackage(packageID,packageName,packagePrice,subject
 
 // Function to handle the delete button click and confirm delete
 function confirmDeletePackage(packageID) {
-    if (confirm("Are you sure you want to delete this education level?")) {
+    if (confirm("Are you sure you want to delete this education level? All related data might be deleted(Ex: Student's current subscription)")) {
         // If user confirms, submit the form for delete action
         document.getElementById('delete-form-package').action = "/admin/package/" + packageID;
         document.getElementById('delete-form-package').submit();

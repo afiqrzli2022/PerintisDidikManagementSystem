@@ -19,7 +19,7 @@
                             <h3>Tutor Information</h3>
                         </div>
                         <hr>
-                        <div class="mb-3"><input class="form-control" type="text" id="userName" name="userName" value="{{ old('userName') }}" placeholder="Name"></div>
+                        <div class="mb-3"><input class="form-control" type="text" id="userName" name="userName" value="{{ old('userName') }}" placeholder="Name" pattern="^[a-zA-Z ']+$" title="Allowed format is alphabet and single quote only"></div>
                         @if($errors->has('userName'))
                             <div class="alert alert-danger">
                                 {{ $errors->first('userName') }}
@@ -37,7 +37,7 @@
                                 {{ $errors->first('userNumber') }}
                             </div>
                         @endif
-                        <div class="mb-3"><input class="shadow-sm form-control" type="email" id="userEmail" name="userEmail" value="{{ old('userEmail') }}" placeholder="Email"></div>
+                        <div class="mb-3"><input class="shadow-sm form-control" type="email" id="userEmail" name="userEmail" value="{{ old('userEmail') }}" placeholder="Email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter in correct email format (example: perintis@gmail.com)"></div>
                         @if($errors->has('userEmail'))
                             <div class="alert alert-danger">
                                 {{ $errors->first('userEmail') }}
@@ -65,13 +65,22 @@
                             <textarea class="form-control" id="workingExperience" name="workingExperience" placeholder="Working Experience">{{ old('workingExperience') }}</textarea>
                         </div>
 
-                        <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Sign Up</button></div>
+                        <div class="mb-5"><button class="btn btn-primary shadow" type="submit" onclick="disableBackButton()">Sign Up</button></div>
                         <p>Already have an account?&nbsp;<a href='tutor-sign-in'>Sign in</a>&nbsp;</p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+    <script>
+        function disableBackButton() {
+            // Disable the back button
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                window.history.go(1);
+            };
+        }
+    </script>
 
     @include('frame.footer')
 

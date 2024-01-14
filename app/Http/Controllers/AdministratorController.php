@@ -21,9 +21,16 @@ class AdministratorController extends Controller
 
     public function processLogin(Request $request)
     {
-        $credentials = $request->validate([
+        /*$credentials = $request->validate([
             'userID' => 'required',
             'password' => 'required',
+        ]);*/
+
+        $credentials = $request->validate([
+            'userID' => 'required', // Ensure 'userID' is a string and required
+            'password' => 'required',
+        ], [
+            'userID.required' => 'The IC number is required.', // Custom error message
         ]);
 
         $credentials['userType'] = 'Administrator'; // Make sure it's a student login only
@@ -54,12 +61,12 @@ class AdministratorController extends Controller
         $rules = [
             'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
+            'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'userEmail' => 'required|email',
             'password' => 'required|string|min:6|confirmed',
 
             'adminRoles' => 'required|string|max:45',
-            'officeNumber' => 'required|string|regex:/^0\d{8,9}$/|max:10',
+            'officeNumber' => 'required|string|max:10|regex:/^0\d{8,9}$/',
         ];
 
         $errorMsg = [
@@ -90,7 +97,7 @@ class AdministratorController extends Controller
             'officeNumber' => [
                 'required' => 'The office phone number is required.',
                 'max' => 'The office phone number must not exceed 10 characters.',
-                'regex' => 'Please enter the office phone number in the following format: 0200011113',
+                'regex' => 'Please enter the office phone number in the following format: 020011113',
             ],
         ];
 
@@ -133,10 +140,10 @@ class AdministratorController extends Controller
 
         $rules = [
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|max:15',
+            'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'userEmail' => 'required|email',
             
-            'officeNumber' => 'required|string|max:15',
+            'officeNumber' => 'required|string|max:10|regex:/^0\d{8,9}$/',
         ];
 
         $oldPassword = $request->input('oldPassword');
@@ -157,10 +164,12 @@ class AdministratorController extends Controller
             'userName.max' => 'The full name must not exceed 100 characters.',
             'userNumber.required' => 'The phone number is required.',
             'userNumber.max' => 'The phone number must not exceed 15 characters.',
+            'userNumber.regex' => 'Please enter the phone number in the following format: 0102345678.',
             'userEmail.required' => 'The email address is required.',
             'userEmail.email' => 'Invalid email format.',
             'officeNumber.required' => 'The office phone number is required.',
-            'officeNumber.max' => 'The office phone number must not exceed 15 characters.',
+            'officeNumber.max' => 'The office phone number must not exceed 10 characters.',
+            'officeNumber.regex' => 'Please enter the office phone number in the following format: 020011113.',
             'password.required' => 'The password is required.',
             'password.min' => 'The password must be at least 6 characters.',
             'password.confirmed' => 'The new password and re-enter password does not match.',

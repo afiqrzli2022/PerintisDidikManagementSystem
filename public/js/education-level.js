@@ -8,7 +8,7 @@ function handleEditButtonClickEduLevel(eduID, eduName) {
 
 // Function to handle the delete button click and confirm delete
 function confirmDeleteEduLevel(eduID) {
-    if (confirm("Are you sure you want to delete this education level?")) {
+    if (confirm("Are you sure you want to delete this education level? All related data might be deleted(Ex: Student's current subscription)")) {
         // If user confirms, submit the form for delete action
         document.getElementById('delete-form-edulevel').action = "/admin/education-level/" + eduID;
         document.getElementById('delete-form-edulevel').submit();

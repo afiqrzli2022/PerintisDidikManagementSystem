@@ -21,9 +21,16 @@ class TutorController extends Controller
 
     public function processLogin(Request $request)
     {
-        $credentials = $request->validate([
+        /*$credentials = $request->validate([
             'userID' => 'required',
             'password' => 'required',
+        ]);*/
+
+        $credentials = $request->validate([
+            'userID' => 'required', // Ensure 'userID' is a string and required
+            'password' => 'required',
+        ], [
+            'userID.required' => 'The IC number is required.', // Custom error message
         ]);
 
         $credentials['userType'] = 'Tutor';
@@ -53,7 +60,7 @@ class TutorController extends Controller
         $rules = [
             'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
+            'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'userEmail' => 'required|email',
             'password' => 'required|string|min:6|confirmed',
 
@@ -130,7 +137,7 @@ class TutorController extends Controller
 
         $rules = [
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|max:15',
+            'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'userEmail' => 'required|email',
             
             'workingExperience' => 'required|string',
@@ -153,7 +160,8 @@ class TutorController extends Controller
             'userName.required' => 'The full name is required.',
             'userName.max' => 'The full name must not exceed 100 characters.',
             'userNumber.required' => 'The phone number is required.',
-            'userNumber.max' => 'The phone number must not exceed 15 characters.',
+            'userNumber.max' => 'The phone number must not exceed 11 characters.',
+            'userNumber.regex' => 'Please enter the phone number in the following format: 0102345678',
             'userEmail.required' => 'The email address is required.',
             'userEmail.email' => 'Invalid email format.',
             'workingExperience.required' => 'Working experience is required.',

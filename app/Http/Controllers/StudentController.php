@@ -22,9 +22,16 @@ class StudentController extends Controller
 
     public function processLogin(Request $request)
     {
-        $credentials = $request->validate([
+        /*$credentials = $request->validate([
             'userID' => 'required',
             'password' => 'required',
+        ]);*/
+
+        $credentials = $request->validate([
+            'userID' => 'required', // Ensure 'userID' is a string and required
+            'password' => 'required',
+        ], [
+            'userID.required' => 'The IC number is required.', // Custom error message
         ]);
 
         $credentials['userType'] = 'Student'; // Make sure it's a student login only
@@ -54,12 +61,12 @@ class StudentController extends Controller
         $rules = [
             'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
+            'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'userEmail' => 'required|email',
             'password' => 'required|string|min:6|confirmed',
 
             'guardianName' => 'required|string|max:100',
-            'guardianNumber' => 'required|string|regex:/^01\d{8,9}$/|max:11',
+            'guardianNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'studentAddress' => 'required|string|max:200',
         ];
 
@@ -142,14 +149,16 @@ class StudentController extends Controller
     }
 
     public function updateProfile(Request $request){
+        
+        DB::beginTransaction();
 
         $rules = [
             'userName' => 'required|string|max:100',
-            'userNumber' => 'required|string|max:15',
+            'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'userEmail' => 'required|email',
             
             'guardianName' => 'required|string|max:100',
-            'guardianNumber' => 'required|string|max:15',
+            'guardianNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
             'studentAddress' => 'required|string|max:200',
         ];
         
@@ -170,13 +179,15 @@ class StudentController extends Controller
             'userName.required' => 'The full name is required.',
             'userName.max' => 'The full name must not exceed 100 characters.',
             'userNumber.required' => 'The phone number is required.',
-            'userNumber.max' => 'The phone number must not exceed 15 characters.',
+            'userNumber.regex' => 'Please enter the phone number in the following format: 0102345678.',
+            'userNumber.max' => 'The phone number must not exceed 11 characters.',
             'userEmail.required' => 'The email address is required.',
             'userEmail.email' => 'Invalid email format.',
             'guardianName.required' => 'The guardian name is required.',
             'guardianName.max' => 'The guardian name must not exceed 100 characters.',
             'guardianNumber.required' => 'The guardian phone number is required.',
-            'guardianNumber.max' => 'The guardian phone number must not exceed 15 characters.',
+            'guardianNumber.regex' => 'Please enter the phone number in the following format: 0102345678.',
+            'guardianNumber.max' => 'The guardian phone number must not exceed 11 characters.',
             'studentAddress.required' => 'The student address is required.',
             'studentAddress.max' => 'The student address must not exceed 200 characters.',
             'password.required' => 'The password is required.',
@@ -190,8 +201,6 @@ class StudentController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-
-        DB::beginTransaction();
 
         $user = User::find(Auth::user()->userID);
         $student = Student::find(Auth::user()->userID);

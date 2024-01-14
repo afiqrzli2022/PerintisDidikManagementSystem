@@ -12,7 +12,7 @@ function handleEditButtonClickSubject(subjectID,subjectName,time,day,duration,ed
 
 // Function to handle the delete button click and confirm delete
 function confirmDeleteSubject(subjectID) {
-    if (confirm("Are you sure you want to delete this education level?")) {
+    if (confirm("Are you sure you want to delete this education level? All related data might be deleted(Ex: Student's current subscription)")) {
         // If user confirms, submit the form for delete action
         document.getElementById('delete-form-subject').action = "/admin/subject/" + subjectID;
         document.getElementById('delete-form-subject').submit();
