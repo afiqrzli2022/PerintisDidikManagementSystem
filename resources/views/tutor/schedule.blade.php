@@ -35,7 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(Auth::user()->tutor->subject as $subject)
+                                @forelse(Auth::user()->tutor->subject as $subject)
                                 <tr>
                                     <td class="text-center">{{$subject->subjectName}}</td>
                                     <td class="text-center">{{$subject->educationlevel->eduName}}</td>
@@ -57,7 +57,11 @@
                                         {{ $carbonInterval }}
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No subject assigned yet</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

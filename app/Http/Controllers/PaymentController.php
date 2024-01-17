@@ -109,12 +109,8 @@ class PaymentController extends Controller
         $result = Payment::charge($request);
 
         if(is_array($result) && array_key_exists('error', $result)){
-            if($result['error'] == "Your card&#039;s expiration year is invalid.") {
-                $result['error'] = "Your card expiration year is invalid";
-            } else if ($result['error'] == "Your card&#039;s expiration month is invalid.") {
-                $result['error'] = "Your card expiration month is invalid";
-            }
-            return redirect()->route('student.payment')->with('error', $result['error']);
+            $decodedError = html_entity_decode($result['error'], ENT_QUOTES, 'UTF-8');
+            return redirect()->route('student.payment')->with('error', $decodedError);
         } else {
             return redirect()->route('student.payment')->with('success', "Payment Success");
         }
