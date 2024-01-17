@@ -13,7 +13,7 @@
                 <div class="col-md-6 text-center"><img class="img-fluid w-100" src="{{ asset('img/illustrations/admin.png') }}"></div>
                 <div class="col-md-5 col-xl-4 text-center text-md-start">
                     <h2 class="display-6 fw-bold mb-5">Sign up as<br><span class="underline pb-1"><strong>Admin</strong></span>&nbsp;</h2>
-                    <form action="{{ route('admin.register') }}" method="POST">
+                    <form action="{{ route('admin.register') }}" id="registerForm" method="POST">
                     @csrf
 
                         <div class="mb-3"><h3>Admin Information</h3></div>
@@ -64,7 +64,7 @@
                             </div>
                         @endif
 
-                        <div class="mb-5"><button class="btn btn-primary shadow" type="submit" onclick="disableBackButton()">Sign Up</button></div>
+                        <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Sign Up</button></div>
                         <p>Already have an account?&nbsp;<a href='admin-sign-in'>Sign in</a>&nbsp;</p>
                     </form>
                 </div>
@@ -72,13 +72,17 @@
         </div>
     </section>
     <script>
-        function disableBackButton() {
-            // Disable the back button
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            
+            var confirmed = confirm("Are you sure you want to register with this information?");
             window.history.pushState(null, null, window.location.href);
             window.onpopstate = function () {
                 window.history.go(1);
             };
-        }
+            if (!confirmed) {
+                event.preventDefault(); // Prevent form submission if not confirmed
+            }
+        });
     </script>
     @include('frame.footer')
 
