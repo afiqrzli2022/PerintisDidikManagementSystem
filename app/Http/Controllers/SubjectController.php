@@ -31,7 +31,7 @@ class SubjectController extends Controller
             'subjectName' => 'required|string|max:45',
             'time' => 'required',
             'day' => 'required|string|max:10',
-            'duration' => 'required|string',
+            'duration' => 'required|string|min_duration',
             'eduID' => 'required|exists:educationlevel,eduID',
             'tutorID' => 'required|exists:tutor,userID',
         ];
@@ -50,6 +50,7 @@ class SubjectController extends Controller
             'day.max' => 'The Day must not be greater than :10.',
             'duration.required' => 'The Duration field is required.',
             'duration.string' => 'The Duration must be a string.',
+            'duration.min_duration' => 'The Duration must be at least 30 minutes in HH:MM:SS format (Ex: 00:30:00)',
             'eduID.required' => 'The Education Level ID field is required.',
             'eduID.exists' => 'The selected Education Level ID is invalid.',
             'tutorID.required' => 'The Tutor ID field is required.',
@@ -123,7 +124,7 @@ class SubjectController extends Controller
             'subjectName' => 'required|string|max:100',
             'time' => 'required',
             'day' => 'required|string|max:10',
-            'duration' => 'required|string|max:20',
+            'duration' => 'required|string|min_duration',
             'eduID' => 'required|exists:educationlevel,eduID',
             'tutorID' => 'required|exists:tutor,userID',
         ];
@@ -142,6 +143,7 @@ class SubjectController extends Controller
             'day.max' => 'The Day must not be greater than :10.',
             'duration.required' => 'The Duration field is required.',
             'duration.string' => 'The Duration must be a string.',
+            'duration.min_duration' => 'The Duration must be at least 30 minutes in HH:MM:SS format (Ex: 00:30:00)',
             'eduID.required' => 'The Education Level ID field is required.',
             'eduID.exists' => 'The selected Education Level ID is invalid.',
             'tutorID.required' => 'The Tutor ID field is required.',

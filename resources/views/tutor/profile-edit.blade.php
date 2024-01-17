@@ -153,7 +153,7 @@
     <script>
         document.getElementById('updateForm').addEventListener('submit', function (event) {
             
-            var confirmed = confirm("Are you sure you want to register with this information?");
+            var confirmed = confirm("Are you sure you want to update with this information?");
             window.history.pushState(null, null, window.location.href);
             window.onpopstate = function () {
                 window.history.go(1);
