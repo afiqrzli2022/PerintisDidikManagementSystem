@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xl-12 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" placeholder="Card Number" name="card-number" required></div>
+                                                <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" placeholder="Card Number" name="card-number" pattern="^[0-9\s-]+$" title="Allowed format is digit, dash and space only" required></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -50,7 +50,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="cvc"><strong>CVC</strong></label><input class="form-control" type="text" id="cvc" placeholder="CVC" name="cvc" pattern="\d{3}" title="Please enter CVC with right format" required></div>
+                                                <div class="mb-3"><label class="form-label" for="cvc"><strong>CVC</strong></label><input class="form-control" type="text" id="cvc" placeholder="CVC" name="cvc" pattern="\d{3}" title="Please enter CVC with right format (3 digit number)" required></div>
                                             </div>
                                         </div>
                                         <div class="text-center"><img class="img-fluid m-3" src="{{ asset('img/illustrations/master-card.png') }}" style="width: 60px;"><img class="img-fluid m-3" src="{{ asset('img/illustrations/visa.png') }}" style="width: 60px;"></div>
