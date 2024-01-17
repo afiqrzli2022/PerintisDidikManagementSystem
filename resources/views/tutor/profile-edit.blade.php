@@ -140,7 +140,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" form="updateForm" onclick="disableBackButton()">Update</button></div>
+                                        <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" form="updateForm">Update</button></div>
                                     </form>
                                 </div>
                             </div>
@@ -151,14 +151,17 @@
         </div>
     </section>
     <script>
-        function disableBackButton() {
-            // Disable the back button
+        document.getElementById('updateForm').addEventListener('submit', function (event) {
+            
+            var confirmed = confirm("Are you sure you want to register with this information?");
             window.history.pushState(null, null, window.location.href);
             window.onpopstate = function () {
                 window.history.go(1);
             };
-        }
-        
+            if (!confirmed) {
+                event.preventDefault(); // Prevent form submission if not confirmed
+            }
+        });
     </script>
 
     @include('frame.footer')
