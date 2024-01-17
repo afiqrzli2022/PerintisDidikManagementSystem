@@ -111,7 +111,7 @@ class PaymentController extends Controller
         if(is_array($result) && array_key_exists('error', $result)){
             $decodedError = html_entity_decode($result['error'], ENT_QUOTES, 'UTF-8');
 
-            $dd($decodedError);
+            dd($decodedError);
             
             return redirect()->route('student.payment')->with('error', $decodedError);
         } else {
