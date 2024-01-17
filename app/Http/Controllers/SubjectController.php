@@ -62,17 +62,42 @@ class SubjectController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $subject = Subject::create([
-            'subjectID' => $request->input('subjectID'),
-            'subjectName' => $request->input('subjectName'),
-            'time' => $request->input('time'),
-            'day' => $request->input('day'),
-            'duration' => $request->input('duration'),
-            'eduID' => $request->input('eduID'),
-            'tutorID' => $request->input('tutorID'),
-        ]);
+        $startTime =  $request->input('time');
+        $duration = $request->input('duration');
+        $endTime = \Carbon\Carbon::parse($startTime)
+                    ->addHours(intval(explode(':', $duration)[0]))
+                    ->addMinutes(intval(explode(':', $duration)[1]))
+                    ->format('H:i:s');
+        $tutorID = $request->input('tutorID');
+        $day = $request->input('day');
 
-        return redirect()->route('listsubject')->with('success', 'Subject created successfully!');
+        $overlappingSubjects = Subject::where('tutorID', $tutorID)
+                                ->where('day', $day)
+                                ->where('time', '<', $endTime)
+                                ->whereRaw('? < ("time" + "duration")', [$startTime])
+                                ->get();
+
+        $formattedStart = \Carbon\Carbon::parse($startTime)
+                        ->format('h:i a');
+        $formattedEnd = \Carbon\Carbon::parse($endTime)
+                        ->format('h:i a');
+
+        if (!$overlappingSubjects->isEmpty()) {
+            return redirect()->back()->with('error', "Overlapped Class: Selected tutor already have class on $day at $formattedStart - $formattedEnd");
+        } else {
+            $subject = Subject::create([
+                'subjectID' => $request->input('subjectID'),
+                'subjectName' => $request->input('subjectName'),
+                'time' => $request->input('time'),
+                'day' => $request->input('day'),
+                'duration' => $request->input('duration'),
+                'eduID' => $request->input('eduID'),
+                'tutorID' => $request->input('tutorID'),
+            ]);
+    
+            return redirect()->route('listsubject')->with('success', 'Subject created successfully!');
+        }
+
     }
 
     public function scheduleStudent(){
@@ -129,9 +154,35 @@ class SubjectController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $subj->update($request->all());
+        $startTime =  $request->input('time');
+        $duration = $request->input('duration');
+        $endTime = \Carbon\Carbon::parse($startTime)
+                    ->addHours(intval(explode(':', $duration)[0]))
+                    ->addMinutes(intval(explode(':', $duration)[1]))
+                    ->format('H:i:s');
+        $tutorID = $request->input('tutorID');
+        $day = $request->input('day');
 
-        return redirect()->route('listsubject')->with('success', 'Subject updated successfully!');
+        $overlappingSubjects = Subject::where('tutorID', $tutorID)
+                                ->where('day', $day)
+                                ->where('time', '<', $endTime)
+                                ->whereRaw('? < ("time" + "duration")', [$startTime])
+                                ->where('subjectID', '<>', $subjectID)
+                                ->get();
+
+        $formattedStart = \Carbon\Carbon::parse($startTime)
+                        ->format('h:i a');
+        $formattedEnd = \Carbon\Carbon::parse($endTime)
+                        ->format('h:i a');
+
+        if (!$overlappingSubjects->isEmpty()) {
+            return redirect()->back()->with('error', "Overlapped Class: Selected tutor already have class on $day at $formattedStart - $formattedEnd");
+        } else {
+            $subj->update($request->all());
+    
+            return redirect()->route('listsubject')->with('success', 'Subject updated successfully!');
+        }
+        
     }
 
 
