@@ -62,7 +62,7 @@ class StudentController extends Controller
             'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
-            'userEmail' => 'required|email',
+            'userEmail' => 'required|email|regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/',
             'password' => 'required|string|min:6|confirmed',
 
             'guardianName' => 'required|string|max:100',
@@ -89,6 +89,7 @@ class StudentController extends Controller
             'userEmail' => [
                 'required' => 'The email address is required.',
                 'email' => 'Invalid email format.',
+                'regex' => 'Email only allowed single dot, alphabet and digit before @ and must have . after @ (Ex: perintisdidik@gmail.com).',
             ],
             'password' => [
                 'required' => 'The password is required.',
@@ -155,7 +156,7 @@ class StudentController extends Controller
         $rules = [
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
-            'userEmail' => 'required|email',
+            'userEmail' => 'required|email|regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/',
             
             'guardianName' => 'required|string|max:100',
             'guardianNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
@@ -183,6 +184,7 @@ class StudentController extends Controller
             'userNumber.max' => 'The phone number must not exceed 11 characters.',
             'userEmail.required' => 'The email address is required.',
             'userEmail.email' => 'Invalid email format.',
+            'userEmail.regex' => 'Email only allowed single dot, alphabet and digit before @ and must have . after @ (Ex: perintisdidik@gmail.com).',
             'guardianName.required' => 'The guardian name is required.',
             'guardianName.max' => 'The guardian name must not exceed 100 characters.',
             'guardianNumber.required' => 'The guardian phone number is required.',

@@ -61,7 +61,7 @@ class TutorController extends Controller
             'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
-            'userEmail' => 'required|email',
+            'userEmail' => 'required|email|regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/',
             'password' => 'required|string|min:6|confirmed',
 
             'workingExperience' => 'required|string',
@@ -86,6 +86,7 @@ class TutorController extends Controller
             'userEmail' => [
                 'required' => 'The email address is required.',
                 'email' => 'Invalid email format.',
+                'regex' => 'Email only allowed single dot, alphabet and digit before @ and must have . after @ (Ex: perintisdidik@gmail.com)',
             ],
             'password' => [
                 'required' => 'The password is required.',
@@ -138,7 +139,7 @@ class TutorController extends Controller
         $rules = [
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
-            'userEmail' => 'required|email',
+            'userEmail' => 'required|email|regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/',
             
             'workingExperience' => 'required|string',
         ];
@@ -164,6 +165,7 @@ class TutorController extends Controller
             'userNumber.regex' => 'Please enter the phone number in the following format: 0102345678',
             'userEmail.required' => 'The email address is required.',
             'userEmail.email' => 'Invalid email format.',
+            'userEmail.regex' => 'Email only allowed single dot, alphabet and digit before @ and must have . after @ (Ex: perintisdidik@gmail.com).',
             'workingExperience.required' => 'Working experience is required.',
             'password.required' => 'The password is required.',
             'password.min' => 'The password must be at least 6 characters.',

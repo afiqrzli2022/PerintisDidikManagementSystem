@@ -9,6 +9,7 @@ use App\Models\Payment;
 use App\Models\Student;
 use App\Models\Subscription;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
@@ -66,9 +67,53 @@ class PaymentController extends Controller
 
     public function charge(Request $request)
     {
+
+        $rules = [
+            'card-name' => 'required|string|regex:/^[a-zA-Z \']+$/',
+            'card-number' => 'required|string|regex:/^\d+$/',
+            'mm' => 'required|string|regex:/^\d{2}$/',
+            'yy' => 'required|string|regex:/^\d{2}$/',
+            'cvc' => 'required|string|regex:/^\d{3}$/',
+        ];
+
+        $errorMsg = [
+            'card-name' => [
+                'required' => 'Cardholder name is required.',
+                'regex' => 'Allowed format is alphabet and single quote only.',
+            ],
+            'card-number' => [
+                'required' => 'Card number is required.',
+                'regex' => 'Allowed format is digits only.',
+            ],
+            'mm' => [
+                'required' => 'Expiry month is required.',
+                'regex' => 'Month format example (MM): 09',
+            ],
+            'yy' => [
+                'required' => 'Expiry year is required.',
+                'regex' => 'Year format example (YY): 32',
+            ],
+            'cvc' => [
+                'required' => 'CVC is required.',
+                'regex' => 'Please enter CVC with right format (3 digit numbers only).',
+            ],
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $errorMsg);
+    
+        if ($validator->fails()) {
+            $request->flash();
+            return back()->withErrors($validator)->withInput();
+        }
+
         $result = Payment::charge($request);
 
         if(is_array($result) && array_key_exists('error', $result)){
+            if($result['error'] == "Your card&#039;s expiration year is invalid.") {
+                $result['error'] = "Your card expiration year is invalid";
+            } else if ($result['error'] == "Your card&#039;s expiration month is invalid.") {
+                $result['error'] = "Your card expiration month is invalid";
+            }
             return redirect()->route('student.payment')->with('error', $result['error']);
         } else {
             return redirect()->route('student.payment')->with('success', "Payment Success");

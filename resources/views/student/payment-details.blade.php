@@ -27,12 +27,22 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-xl-12 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="card-holder"><strong>Cardholder Name</strong></label><input class="form-control" type="text" id="card-holder" placeholder="Cardholder Name" name="card-name" pattern="^[a-zA-Z ']+$" title="Allowed format is alphabet and single quote only" required></div>
+                                                <div class="mb-3"><label class="form-label" for="card-holder"><strong>Cardholder Name</strong></label><input class="form-control" type="text" id="card-holder" placeholder="Cardholder Name" name="card-name" required></div>
+                                                @if($errors->has('card-name'))
+                                                    <div class="alert alert-danger">
+                                                        {{ $errors->first('card-name') }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xl-12 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" placeholder="Card Number" name="card-number" pattern="\d+" title="Allowed format is digits only" required></div>
+                                                <div class="mb-3"><label class="form-label" for="card-number"><strong>Card Number</strong></label><input class="form-control" type="text" id="card-number" placeholder="Card Number" name="card-number" required></div>
+                                                @if($errors->has('card-number'))
+                                                    <div class="alert alert-danger">
+                                                        {{ $errors->first('card-number') }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
@@ -41,16 +51,31 @@
                                                     <label class="form-label" for="expiration-date"><strong>Expiration Date</strong></label>
                                                     <div class="row">
                                                         <div class="col-md-6">  
-                                                            <input class="form-control mb-2" type="text" placeholder="MM" id="mm" name="mm" pattern="\d{2}" title="Month format example (MM): 09" required>
+                                                            <input class="form-control mb-2" type="text" placeholder="MM" id="mm" name="mm" required>
+                                                            @if($errors->has('mm'))
+                                                                <div class="alert alert-danger">
+                                                                    {{ $errors->first('mm') }}
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                         <div class="col-md-6">  
-                                                            <input class="form-control" type="text" placeholder="YY" id="yy" name="yy" pattern="\d{2}" title="Year format example (YY): 34" required>
+                                                            <input class="form-control" type="text" placeholder="YY" id="yy" name="yy" required>
+                                                            @if($errors->has('yy'))
+                                                                <div class="alert alert-danger">
+                                                                    {{ $errors->first('yy') }}
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 offset-xl-0">
-                                                <div class="mb-3"><label class="form-label" for="cvc"><strong>CVC</strong></label><input class="form-control" type="text" id="cvc" placeholder="CVC" name="cvc" pattern="\d{3}" title="Please enter CVC with right format (3 digit numbers only)" required></div>
+                                                <div class="mb-3"><label class="form-label" for="cvc"><strong>CVC</strong></label><input class="form-control" type="text" id="cvc" placeholder="CVC" name="cvc" required></div>
+                                                @if($errors->has('cvc'))
+                                                    <div class="alert alert-danger">
+                                                        {{ $errors->first('cvc') }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="text-center"><img class="img-fluid m-3" src="{{ asset('img/illustrations/master-card.png') }}" style="width: 60px;"><img class="img-fluid m-3" src="{{ asset('img/illustrations/visa.png') }}" style="width: 60px;"></div>

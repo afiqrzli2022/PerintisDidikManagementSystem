@@ -62,7 +62,7 @@ class AdministratorController extends Controller
             'userID' => ['required','string','max:14','unique:users,userID', 'regex:/^\d{6}-\d{2}-\d{4}$/'],
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
-            'userEmail' => 'required|email',
+            'userEmail' => 'required|email|regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/',
             'password' => 'required|string|min:6|confirmed',
 
             'adminRoles' => 'required|string|max:45',
@@ -88,6 +88,7 @@ class AdministratorController extends Controller
             'userEmail' => [
                 'required' => 'The email address is required.',
                 'email' => 'Invalid email format.',
+                'regex' => 'Email only allowed single dot, alphabet and digit before @ and must have . after @ (Ex: perintisdidik@gmail.com).',
             ],
             'password' => [
                 'required' => 'The password is required.',
@@ -141,7 +142,7 @@ class AdministratorController extends Controller
         $rules = [
             'userName' => 'required|string|max:100',
             'userNumber' => 'required|string|max:11|regex:/^01\d{8,9}$/',
-            'userEmail' => 'required|email',
+            'userEmail' => 'required|email|regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/',
             
             'officeNumber' => 'required|string|max:10|regex:/^0\d{8,9}$/',
         ];
@@ -167,6 +168,7 @@ class AdministratorController extends Controller
             'userNumber.regex' => 'Please enter the phone number in the following format: 0102345678.',
             'userEmail.required' => 'The email address is required.',
             'userEmail.email' => 'Invalid email format.',
+            'userEmail.regex' => 'Email only allowed single dot, alphabet and digit before @ and must have . after @ (Ex: perintisdidik@gmail.com).',
             'officeNumber.required' => 'The office phone number is required.',
             'officeNumber.max' => 'The office phone number must not exceed 10 characters.',
             'officeNumber.regex' => 'Please enter the office phone number in the following format: 020011113.',
