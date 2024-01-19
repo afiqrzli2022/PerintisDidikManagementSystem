@@ -111,15 +111,25 @@
         </div>
     </section>
     <script>
+        var formSubmitted = false;
         document.getElementById('updateForm').addEventListener('submit', function (event) {
-            
             var confirmed = confirm("Are you sure you want to update with this information?");
-            window.history.pushState(null, null, window.location.href);
-            window.onpopstate = function () {
-                window.history.go(1);
-            };
+            formSubmitted = true;
             if (!confirmed) {
+                formSubmitted = false;
                 event.preventDefault(); // Prevent form submission if not confirmed
+            }
+        });
+
+        window.addEventListener('beforeunload', function (e) {
+            if (!formSubmitted) {
+                var confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
+
+                // Standard
+                e.returnValue = confirmationMessage;
+
+                // For old browsers
+                return confirmationMessage;
             }
         });
     </script>
