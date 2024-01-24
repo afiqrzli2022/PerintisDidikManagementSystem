@@ -1,7 +1,0 @@
-use Illuminate\Support\Facades\Log;//debug
-
-\Carbon\Carbon::parse(Auth::user() -> student -> latestSubs -> onePayment -> paymentDate )->format('d/m/y')
-
-dd();
-
-Current working project 124

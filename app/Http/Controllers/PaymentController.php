@@ -130,11 +130,11 @@ class PaymentController extends Controller
         })->get();
 
         $curl = curl_init();
-        $token = "chk2QtO5mfr7pzIDRoWWQlkhlRBZtESTijGCR473pTCsuEMVYSfBbna5aNLxub1Z";
+        $token = "wablas key############"; //Please dont show to git your wablas key
         $random = false;
         $payload = $studentInfo->map(function ($student) {
             return [
-                'phone' => $student->user->userNumber, // Replace with actual phone number field name
+                'phone' => $student->user->userNumber, 
                 'message' => 
 'Hello '.$student->user->userName.',
 

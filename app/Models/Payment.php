@@ -35,8 +35,8 @@ class Payment extends Model
 
     public static function charge(Request $request)
     {
-        // Set your Stripe API secret key
-        $stripe = new StripeClient('sk_test_51MyuYjCPnzqW9CmuNp90YVL6v95rlwnZfetnKKuImnOninXo8A5senMuyInHzlaDKGtqUB7evxu9iJ93jWh97R8o00UHPLkyVR');
+        // This is for stripe api key, please dont push into git your key
+        $stripe = new StripeClient('STRIPE KEY#######');
 
         try {
             
